@@ -4,7 +4,7 @@
 # bleiben die externen Links stehen und die Seite funktioniert trotzdem.
 set -u
 rm -rf dist && mkdir -p dist/fonts dist/vendor
-cp -r index.html impressum.html datenschutz.html img dist/
+cp -r index.html impressum.html datenschutz.html robots.txt sitemap.xml img dist/
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 GF='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap'
