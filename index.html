@@ -6,6 +6,9 @@
 <title>Max Reischl – Moving Max | Ultracycling & Europaumrundung</title>
 <meta name="description" content="Max Reischl (Moving Max) aus Regensburg umrundet Europa mit dem Rennrad: 33.000 km auf den äußersten Straßen. Route, Live-Tracking, Ausrüstung, Projekte 2027 und Kontakt für Sponsoren.">
 <link rel="canonical" href="https://movingmax.cc/">
+<link rel="alternate" hreflang="de" href="https://movingmax.cc/">
+<link rel="alternate" hreflang="en" href="https://movingmax.cc/en/">
+<link rel="alternate" hreflang="x-default" href="https://movingmax.cc/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://movingmax.cc/">
 <meta property="og:title" content="Max Reischl – Moving Max">
@@ -62,7 +65,10 @@ header { position: sticky; top: 0; z-index: 20; background: rgba(18, 16, 25, 0.9
 .nav ul a.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); padding-bottom: 4px; }
 section[id] { scroll-margin-top: 64px; }
 
-.nav-right { display: flex; align-items: center; gap: 10px; }
+.lang { display: inline-flex; align-items: center; justify-content: center; height: 40px; min-width: 44px; padding: 0 10px; border: 1px solid var(--line); border-radius: 4px; text-decoration: none; font-weight: 600; font-size: .9rem; letter-spacing: .06em; color: var(--muted); }
+.lang:hover { color: var(--text); border-color: var(--accent); }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.logo { white-space: nowrap; }
 .burger { display: none; width: 44px; height: 40px; border: 1px solid var(--line); border-radius: 4px; background: transparent; cursor: pointer; padding: 0; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
 .burger span { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .2s, opacity .2s; }
 .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -71,7 +77,8 @@ section[id] { scroll-margin-top: 64px; }
 .mobile-menu { display: grid; border-top: 1px solid var(--line); padding: 6px 20px 14px; }
 .mobile-menu[hidden] { display: none; }
 .mobile-menu a { text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: .02em; padding: 12px 0; border-bottom: 1px solid var(--line); }
-.mobile-menu a:last-child { border-bottom: 0; color: var(--accent); }
+.mobile-menu a:last-child { border-bottom: 0; color: var(--muted); font-size: 1.1rem; }
+.mobile-menu a[href="#kontakt"] { color: var(--accent); }
 @media (max-width: 1000px) { .burger { display: inline-flex; } }
 @media (min-width: 1001px) { .mobile-menu { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .burger span { transition: none; } }
@@ -243,6 +250,7 @@ footer a { color: var(--muted); }
       <li><a href="#partner">Partner</a></li>
     </ul>
     <div class="nav-right">
+      <a class="lang" href="/en/" hreflang="en" lang="en" aria-label="English version">EN</a>
       <a class="btn" href="#kontakt">Kontakt</a>
       <button class="burger" id="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
     </div>
@@ -255,6 +263,7 @@ footer a { color: var(--muted); }
     <a href="#projekte">2027</a>
     <a href="#partner">Partner</a>
     <a href="#kontakt">Kontakt</a>
+    <a href="/en/" hreflang="en" lang="en">English</a>
   </nav>
 </header>
 
