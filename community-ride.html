@@ -103,11 +103,13 @@ input[type=range] { width: 100%; accent-color: var(--accent-strong); margin: 8px
 /* Formular */
 form { display: grid; gap: 14px; max-width: 560px; }
 label { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
-input[type=text], input[type=email], input[type=number], select, textarea { font: 400 1rem var(--font-body); color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; width: 100%; }
+input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea { font: 400 1rem var(--font-body); color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; width: 100%; }
 textarea { min-height: 90px; resize: vertical; }
 .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: .9rem; color: var(--muted); }
 .check input { margin-top: 4px; accent-color: var(--accent-strong); }
 .hp { position: absolute; left: -9999px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .row2 { grid-template-columns: 1fr; } }
 .thanks { background: var(--surface); border: 1px solid var(--accent-strong); border-radius: 6px; padding: 18px 20px; margin-bottom: 20px; }
 .thanks[hidden] { display: none; }
 
@@ -128,10 +130,10 @@ footer a { color: var(--muted); }
         <p class="lead">Drei Tage zusammen auf dem Rad: an den Bodensee, über einen Alpenpass mit Bergwertung und am Ende nach Monza zum Zeitfahren vom Giro d’Italia. Danach fahren wir gemeinsam zurück.</p>
         <div class="stats"><div><b>589</b><span>km</span></div><div><b>5.450</b><span>Höhenmeter</span></div><div><b>2</b><span>Fahrtage</span></div><div><b>1</b><span>Bergwertung</span></div></div>
         <div class="actions">
-          <a class="btn" href="#anmelden">Platz vormerken</a>
+          <a class="btn" href="#anmelden">Jetzt anmelden</a>
           <a class="btn ghost" href="https://www.komoot.com/tour/2780226821?share_token=a467kPNNsEdAhb2Jq1iOPHZ9f2uAPeI0P3qssqxAHusbV1cU4b" target="_blank" rel="noopener">Route auf Komoot</a>
         </div>
-        <p class="note"><strong>Noch in Planung.</strong> Transport von Fahrern und Rädern, Unterkunft und Preise stehen noch nicht fest. Wer sich vormerkt, bekommt alle Infos als Erstes.</p>
+        <p class="note"><strong>Noch in Planung.</strong> Transport von Fahrern und Rädern, Unterkunft und Preise stehen noch nicht fest. Wer sich anmeldet, bekommt alle Infos als Erstes.</p>
       </div>
       <img class="hero-pic" src="img/amalfi.jpg" alt="Max auf dem Rad über Positano an der Amalfiküste">
     </div>
@@ -233,15 +235,19 @@ footer a { color: var(--muted); }
   <section id="anmelden">
     <div class="wrap">
       <div class="head">
-        <div class="label">Unverbindlich</div>
-        <h2>Platz vormerken</h2>
-        <p class="muted">Trag dich ein, wenn du die ganze Tour mitfahren willst. Das ist noch keine feste Buchung. Sobald Preis und Transport stehen, melde ich mich bei dir und du entscheidest dann.</p>
+        <div class="label">Dabei sein</div>
+        <h2>Anmelden</h2>
+        <p class="muted">Meld dich an, wenn du die ganze Tour mitfahren willst. Ich melde mich per WhatsApp oder E-Mail bei dir, sobald Preis, Transport und Unterkunft stehen. Fest gebucht ist dein Platz erst, wenn du dann zusagst.</p>
       </div>
-      <div class="thanks" id="thanks" hidden><strong>Danke, du bist vorgemerkt!</strong> <span class="muted">Ich melde mich, sobald alles fix ist.</span></div>
+      <div class="thanks" id="thanks" hidden><strong>Danke, du bist angemeldet!</strong> <span class="muted">Ich melde mich bei dir, sobald alles fix ist.</span></div>
       <form name="community-ride" method="POST" action="community-ride.html?danke=1#anmelden" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="community-ride">
         <p class="hp"><label>Nicht ausfüllen <input name="bot-field"></label></p>
-        <label>Name <input type="text" name="name" autocomplete="name" required></label>
+        <div class="row2">
+          <label>Vorname <input type="text" name="vorname" autocomplete="given-name" required></label>
+          <label>Nachname <input type="text" name="nachname" autocomplete="family-name" required></label>
+        </div>
+        <label>Handynummer <input type="tel" name="telefon" autocomplete="tel" placeholder="+49 …" required></label>
         <label>E-Mail <input type="email" name="email" autocomplete="email" required></label>
         <label>Instagram (optional) <input type="text" name="instagram" placeholder="@"></label>
         <label>Wie fährst du mit?
@@ -253,7 +259,7 @@ footer a { color: var(--muted); }
         </label>
         <label>Noch was? (optional) <textarea name="nachricht" placeholder="z. B. längste Ausfahrt bisher, Fragen"></textarea></label>
         <label class="check"><input type="checkbox" name="datenschutz" required> <span>Ich bin einverstanden, dass meine Angaben zur Organisation des Community Rides gespeichert werden. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
-        <div><button class="btn" type="submit">Vormerken</button></div>
+        <div><button class="btn" type="submit">Jetzt anmelden</button></div>
       </form>
     </div>
   </section>
