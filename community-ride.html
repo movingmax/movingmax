@@ -126,6 +126,12 @@ label.opt small { color: var(--muted); font-size: .85rem; }
 .vote::before { content: ""; width: 16px; height: 16px; border: 2px solid var(--muted); border-radius: 3px; box-sizing: border-box; }
 .vote[aria-pressed="true"] { border-color: var(--accent-strong); background: rgba(132,64,240,.18); }
 .vote[aria-pressed="true"]::before { background: var(--accent-strong); border-color: var(--accent-strong); box-shadow: inset 0 0 0 2px var(--surface); }
+.count { margin-top: 36px; max-width: 560px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 22px 22px 18px; }
+.count[hidden] { display: none; }
+.count .big { color: var(--accent); }
+.count ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 8px; }
+.count li { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 8px; font-variant-numeric: tabular-nums; }
+.count li b { font-weight: 600; }
 footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: .9rem; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 footer a { color: var(--muted); }
@@ -246,6 +252,16 @@ footer a { color: var(--muted); }
         <label class="check"><input type="checkbox" name="datenschutz" required> <span>Ich bin einverstanden, dass meine Angaben zur Organisation des Community Rides gespeichert werden. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
         <div><button class="btn" type="submit">Eintragen</button></div>
       </form>
+      <div class="count" id="count" hidden aria-live="polite">
+        <div class="label">Schon dabei</div>
+        <div class="big"><span id="cTotal">0</span><small id="cWord">Leute</small></div>
+        <p class="muted" id="cText">stehen schon auf der Interessenliste.</p>
+        <ul>
+          <li><span>Bodensee-Tag</span><b id="cBodensee">0</b></li>
+          <li><span>Bis Monza</span><b id="cMonza">0</b></li>
+          <li><span>Die ganze Runde</span><b id="cGanz">0</b></li>
+        </ul>
+      </div>
     </div>
   </section>
 </main>
@@ -271,6 +287,17 @@ footer a { color: var(--muted); }
     }
   });
   sync();
+  fetch("/api/anmeldungen").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+    if (!d || !d.ok) return;
+    var n = d.gesamt;
+    document.getElementById("cTotal").textContent = n;
+    document.getElementById("cWord").textContent = n === 1 ? "Person" : "Leute";
+    document.getElementById("cText").textContent = n === 0 ? "Noch niemand auf der Liste. Sei der Erste!" : (n === 1 ? "steht schon auf der Interessenliste." : "stehen schon auf der Interessenliste.");
+    document.getElementById("cBodensee").textContent = d.bodensee;
+    document.getElementById("cMonza").textContent = d.monza;
+    document.getElementById("cGanz").textContent = d.ganz;
+    document.getElementById("count").hidden = false;
+  }).catch(function () {});
 })();
 </script>
 </body>
