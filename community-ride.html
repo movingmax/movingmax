@@ -122,6 +122,11 @@ label.opt span { display: grid; }
 label.opt small { color: var(--muted); font-size: .85rem; }
 .err { color: #ff8a8a; margin: 0; }
 .err[hidden] { display: none; }
+.poll { display: grid; gap: 8px; margin-top: 8px; }
+.poll[hidden] { display: none; }
+.tally { height: 6px; border-radius: 3px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+.tally i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .4s ease; }
+@media (prefers-reduced-motion: reduce) { .tally i { transition: none; } }
 .vote { justify-self: start; margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; font: 600 .95rem var(--font-body); color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 4px; padding: 9px 14px; cursor: pointer; }
 .vote::before { content: ""; width: 16px; height: 16px; border: 2px solid var(--muted); border-radius: 3px; box-sizing: border-box; }
 .vote[aria-pressed="true"] { border-color: var(--accent-strong); background: rgba(132,64,240,.18); }
@@ -167,18 +172,22 @@ footer a { color: var(--muted); }
             <li>Kostenlos</li>
             <li>Rückweg organisierst du selbst</li>
           </ul>
+          <div class="poll" data-v="bodensee" hidden><button type="button" class="vote" aria-pressed="false">Da wäre ich dabei</button><div class="tally"><i></i></div><span class="muted small" aria-live="polite"></span></div>
         </div>
         <div class="card">
           <span class="status">21. bis 23. Mai</span>
           <h3>Bis Monza</h3>
           <p class="muted">Über die Alpen mit Bergwertung bis nach Monza zum Giro-Zeitfahren. Danach geht’s für dich auf eigene Faust heim.</p>
+          <div class="poll" data-v="monza" hidden><button type="button" class="vote" aria-pressed="false">Da wäre ich dabei</button><div class="tally"><i></i></div><span class="muted small" aria-live="polite"></span></div>
         </div>
         <div class="card hl">
           <span class="status">21. bis 29. Mai</span>
           <h3>Die ganze Runde</h3>
           <p class="muted">Bis Monza, dann Königsetappe am Mortirolo und mit dem Rad über Bozen, Brenner und Innsbruck zurück. Kein Bus, ab Monza entspannte Etappen.</p>
+          <div class="poll" data-v="ganz" hidden><button type="button" class="vote" aria-pressed="false">Da wäre ich dabei</button><div class="tally"><i></i></div><span class="muted small" aria-live="polite"></span></div>
         </div>
       </div>
+      <p class="muted small" id="pollNote" hidden style="margin-top:16px">Stimm ab, was du fahren würdest. Mehrere Varianten sind möglich, und du kannst deine Wahl jederzeit ändern. Die Abstimmung ist anonym und unverbindlich.</p>
     </div>
   </section>
 
@@ -228,6 +237,50 @@ footer a { color: var(--muted); }
 </main>
 
 <footer><div class="wrap"><span>© 2026 Max Reischl · Moving Max</span><span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span></div></footer>
+
+<script>
+// Abstimmung: Stand laden, eigene Wahl im Browser merken, Änderungen an den Server schicken
+(function () {
+  var API = "/api/community-ride-votes", KEY = "mm-community-ride";
+  var polls = Array.prototype.slice.call(document.querySelectorAll(".poll"));
+  var me = null, last = null, busy = false;
+  try { me = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (!me || !me.id || !Array.isArray(me.picks)) me = { id: newId(), picks: [] };
+  function newId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx".replace(/x/g, function () { return Math.floor(Math.random() * 16).toString(16); });
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(me)); } catch (e) {} }
+  function render(c) {
+    last = c;
+    var max = Math.max(1, c.bodensee || 0, c.monza || 0, c.ganz || 0);
+    polls.forEach(function (p) {
+      var v = p.dataset.v, n = c[v] || 0, on = me.picks.indexOf(v) >= 0, b = p.querySelector(".vote");
+      b.setAttribute("aria-pressed", on); b.textContent = on ? "Ich wäre dabei" : "Da wäre ich dabei";
+      p.querySelector(".tally i").style.width = (100 * n / max) + "%";
+      p.querySelector("span").textContent = n === 0 ? "Noch keine Stimme" : n === 1 ? "1 Stimme" : n + " Stimmen";
+      p.hidden = false;
+    });
+    document.getElementById("pollNote").hidden = false;
+  }
+  function ok(r) { if (!r.ok) throw new Error(r.status); return r.json(); }
+  fetch(API).then(ok).then(render).catch(function () { /* ohne Server bleibt die Abstimmung ausgeblendet */ });
+  polls.forEach(function (p) {
+    p.querySelector(".vote").addEventListener("click", function () {
+      if (busy || !last) return;
+      var v = p.dataset.v, before = me.picks.slice(), i = me.picks.indexOf(v), guess = {};
+      if (i >= 0) me.picks.splice(i, 1); else me.picks.push(v);
+      Object.keys(last).forEach(function (k) { guess[k] = last[k]; });
+      guess[v] = Math.max(0, (guess[v] || 0) + (i >= 0 ? -1 : 1));
+      var prev = last; render(guess); busy = true;
+      fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(me) })
+        .then(ok).then(function (c) { save(); render(c); })
+        .catch(function () { me.picks = before; render(prev); p.querySelector("span").textContent = "Hat nicht geklappt. Versuch es gleich noch mal."; })
+        .then(function () { busy = false; });
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
