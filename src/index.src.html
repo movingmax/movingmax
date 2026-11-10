@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="⟦de¦en⟧">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>⟦Max Reischl – Moving Max | Ultracycling & Europaumrundung¦Max Reischl – Moving Max | Ultracycling Around Europe⟧</title>
+<meta name="description" content="⟦Max Reischl (Moving Max) aus Regensburg umrundet Europa mit dem Rennrad: 33.000 km auf den äußersten Straßen. Route, Live-Tracking, Ausrüstung, Projekte 2027 und Kontakt für Sponsoren.¦Max Reischl (Moving Max) from Regensburg, Germany, is riding around Europe on a road bike: 33,000 km on the outermost roads. Route, live tracking, gear, 2027 projects and sponsor contact.⟧">
+<link rel="canonical" href="https://movingmax.cc/⟦¦en/⟧">
+<link rel="alternate" hreflang="de" href="https://movingmax.cc/">
+<link rel="alternate" hreflang="en" href="https://movingmax.cc/en/">
+<link rel="alternate" hreflang="x-default" href="https://movingmax.cc/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://movingmax.cc/⟦¦en/⟧">
+<meta property="og:title" content="Max Reischl – Moving Max">
+<meta property="og:description" content="⟦33.000 km mit dem Rennrad einmal um Europa. Ultracycling, Abenteuer und Content.¦33,000 km around Europe on a road bike. Ultracycling, adventure and content.⟧">
+<meta property="og:image" content="https://movingmax.cc/img/istanbul.jpg">
+<meta name="theme-color" content="#121019">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Max Reischl","alternateName":["Maximilian Reischl","Moving Max"],"url":"https://movingmax.cc/","image":"https://movingmax.cc/img/portrait.jpg","jobTitle":"Ultracyclist & Content Creator","homeLocation":{"@type":"Place","name":"Regensburg"},"email":"mailto:maximilianvreischl@gmail.com","sameAs":["https://www.instagram.com/movingmaxx/","https://www.youtube.com/@MovingMaxx","https://www.tiktok.com/@movingmax","https://www.strava.com/athletes/136572386"]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Aufbau: eine Seite. Oben das Streckenband (die ganze Runde als Linie, lila = gefahren),
+   danach die Route, die sich beim Scrollen um Europa zeichnet. Dunkler Asphalt, Lila als Markenfarbe,
+   Partner und Kontakt am Ende auf hellem Flieder. */
+:root {
+  --bg: #121019;
+  --surface: #1b1824;
+  --line: #2c2839;
+  --text: #eef1f4;
+  --muted: #a6a1b6;
+  --accent: #a35bff;
+  --accent-strong: #8440f0;
+  --land: #1e1a28;
+  --chalk: #f1ecfa;
+  --ink: #1a1526;
+  --ink-muted: #5b536d;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 17px; line-height: 1.6; -webkit-text-size-adjust: 100%; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+img { max-width: 100%; display: block; }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 1; margin: 0; text-wrap: balance; letter-spacing: 0.005em; }
+h2 { font-size: clamp(2.4rem, 7vw, 4rem); }
+h3 { font-size: 1.6rem; font-weight: 700; line-height: 1.05; }
+p { margin: 0; max-width: 60ch; }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+.num { font-variant-numeric: tabular-nums; }
+.link { color: var(--accent); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.link:hover { text-decoration-thickness: 2px; }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: var(--accent-strong); color: #fff; padding: 10px 16px; border-radius: 4px; font-weight: 600; text-decoration: none; }
+.skip:focus { top: 12px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.btn { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font-weight: 600; padding: 13px 22px; border-radius: 4px; border: 1px solid var(--accent-strong); background: var(--accent-strong); color: #fff; line-height: 1.2; }
+.btn.ghost { background: transparent; color: var(--text); border-color: #4a4460; }
+.btn:hover { filter: brightness(1.1); }
+.live-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #e5484d; box-shadow: 0 0 0 4px rgba(229,72,77,.25); flex: none; }
+
+/* Navigation */
+header { position: sticky; top: 0; z-index: 20; background: rgba(18, 16, 25, 0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; }
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; letter-spacing: 0.04em; white-space: nowrap; }
+.logo span { color: var(--accent); }
+.nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; }
+.nav ul a { text-decoration: none; font-weight: 600; font-size: 0.95rem; color: var(--muted); padding-bottom: 4px; }
+.nav ul a:hover { color: var(--text); }
+.nav ul a.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); }
+.nav .btn { padding: 8px 16px; font-size: 0.9rem; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.lang { display: inline-flex; align-items: center; height: 36px; padding: 0 11px; border: 1px solid var(--line); border-radius: 4px; text-decoration: none; color: var(--muted); font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.06em; }
+.lang:hover { color: var(--text); }
+.burger { display: none; width: 44px; height: 40px; border: 1px solid var(--line); border-radius: 4px; background: transparent; cursor: pointer; padding: 0; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
+.burger span { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .2s, opacity .2s; }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { display: grid; border-top: 1px solid var(--line); padding: 6px 20px 14px; }
+.mobile-menu[hidden] { display: none; }
+.mobile-menu a { text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: .02em; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.mobile-menu a:last-child { border-bottom: 0; color: var(--muted); font-size: 1.1rem; }
+@media (max-width: 1000px) { .nav ul { display: none; } .burger { display: inline-flex; } }
+@media (min-width: 1001px) { .mobile-menu { display: none !important; } }
+@media (max-width: 480px) { .nav-right { gap: 8px; } .nav .btn { padding: 8px 12px; } }
+@media (prefers-reduced-motion: reduce) { .burger span { transition: none; } }
+section[id] { scroll-margin-top: 64px; }
+
+/* Hero: Foto läuft rechts bis an den Bildschirmrand, Schrift steht groß davor */
+.hero { display: grid; grid-template-columns: minmax(20px, 1fr) minmax(0, 640px) minmax(0, 460px) minmax(20px, 1fr); align-items: stretch; min-height: min(82vh, 780px); }
+.hero-in { grid-column: 2; grid-row: 1; align-self: center; padding: 56px 40px 56px 0; position: relative; z-index: 1; }
+.hero-img { grid-column: 3 / 5; grid-row: 1; width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: 50% 45%; }
+.kicker { font-weight: 600; color: var(--accent); font-size: 1.05rem; }
+.hero h1 { font-size: clamp(4rem, 10.5vw, 8.6rem); line-height: 0.88; margin: 10px 0 24px -0.04em; }
+.hero h1 .w { display: inline-block; white-space: nowrap; }
+.hero h1 .ch { display: inline-block; animation: drop .75s cubic-bezier(.2, 1.35, .35, 1) both; animation-delay: calc(var(--i) * 60ms + 200ms); }
+@keyframes drop { from { opacity: 0; transform: translateY(-1em) rotate(-9deg); } 55% { opacity: 1; } to { opacity: 1; transform: none; } }
+.lead { font-size: 1.2rem; color: #cfcbdb; max-width: 34ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.press { margin-top: 26px; font-size: 0.92rem; color: var(--muted); }
+.press strong { color: var(--text); font-weight: 600; }
+@media (max-width: 900px) {
+  .hero { display: block; min-height: 0; position: relative; overflow: hidden; }
+  .hero-img { height: auto; aspect-ratio: 4 / 5; max-height: 68vh; -webkit-mask-image: linear-gradient(#000 55%, transparent 98%); mask-image: linear-gradient(#000 55%, transparent 98%); }
+  .hero-in { padding: 0 20px 44px; margin-top: -118px; }
+  .hero h1 { font-size: clamp(4rem, 21vw, 7rem); }
+  .lead { max-width: 60ch; font-size: 1.1rem; }
+}
+
+/* Streckenband: die ganze Runde als Linie */
+.band { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0 28px; }
+.band-top { display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+.band-top b { display: block; font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 8vw, 4.2rem); line-height: 0.95; white-space: nowrap; }
+.band-top span { color: var(--muted); font-size: 0.92rem; }
+.band-top .day { text-align: right; white-space: nowrap; }
+.track { position: relative; height: 8px; margin: 26px 9px 0; background: #35304a; border-radius: 4px; }
+.track-done { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 4px; }
+.track-rider { position: absolute; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: #fff; border: 4px solid var(--accent); }
+.track-rider::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--accent); animation: pulse 2s ease-out infinite; }
+@keyframes pulse { from { opacity: .9; transform: scale(.6); } to { opacity: 0; transform: scale(1.5); } }
+@media (prefers-reduced-motion: reduce) { .track-rider::after { animation: none; opacity: 0; } }
+.ticks { list-style: none; margin: 0 9px; padding: 0; position: relative; height: 40px; }
+.ticks li { position: absolute; top: 0; transform: translateX(-50%); padding-top: 14px; font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+.ticks li::before { content: ""; position: absolute; left: 50%; top: 2px; width: 1px; height: 8px; background: #6b6582; }
+.ticks li.done { color: var(--text); }
+.ticks li.done::before { background: var(--accent); }
+.ticks li.end0 { transform: none; margin-left: -9px; }
+.ticks li.end0::before { left: 9px; }
+.ticks li.end1 { transform: translateX(-100%); margin-left: 9px; }
+.ticks li.end1::before { left: auto; right: 9px; }
+@media (max-width: 760px) { .ticks li.minor { font-size: 0; } }
+.band-facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 8px 44px; margin: 14px 0 0; }
+.band-facts div { display: flex; align-items: baseline; gap: 8px; }
+.band-facts dt { order: 2; color: var(--muted); font-size: 0.92rem; }
+.band-facts dd { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; line-height: 1.1; }
+@media (max-width: 760px) { .band-facts { grid-template-columns: 1fr; gap: 4px; } }
+
+section { padding: 84px 0; }
+@media (max-width: 760px) { section { padding: 60px 0; } }
+.head { display: grid; gap: 14px; margin-bottom: 36px; }
+
+/* Route */
+.pic { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; background: var(--surface); }
+.pic.tall { aspect-ratio: 4 / 5; max-height: 62vh; }
+.story { display: grid; grid-template-columns: 1fr 1.15fr; gap: 48px; align-items: start; }
+.map-box { position: sticky; top: 76px; height: calc(100vh - 100px); max-height: 760px; border: 1px solid var(--line); border-radius: 6px; background: #0e0c14; overflow: hidden; order: 2; }
+.map-box svg { width: 100%; height: 100%; display: block; }
+.land { fill: var(--land); stroke: #2b333c; stroke-width: 0.6; }
+.r-plan { fill: none; stroke: #5a6470; stroke-width: 1.6; stroke-dasharray: 3 5; stroke-linecap: round; }
+.r-done { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.r-ahead { fill: none; stroke: #e7ebef; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0.85; }
+.pin { fill: var(--bg); stroke: #6b7682; stroke-width: 2; }
+.pin.on { fill: var(--accent); stroke: var(--accent); }
+.rider { fill: #fff; stroke: var(--accent); stroke-width: 3; }
+.now-ring { fill: none; stroke: var(--accent); stroke-width: 2; animation: pulse-map 2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pulse-map { from { opacity: .9; transform: scale(.6); } to { opacity: 0; transform: scale(2.2); } }
+@media (prefers-reduced-motion: reduce) { .now-ring { animation: none; } }
+.map-hud { position: absolute; left: 14px; right: 14px; bottom: 12px; display: flex; justify-content: space-between; align-items: end; gap: 12px; pointer-events: none; }
+.map-hud b { font-family: var(--font-display); font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.map-hud span { display: block; color: var(--muted); font-size: 0.8rem; }
+.legend { display: grid; gap: 4px; font-size: 0.78rem; color: var(--muted); text-align: right; }
+.legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 6px; background: var(--accent); }
+.legend i.p { background: repeating-linear-gradient(90deg, #6b7682 0 3px, transparent 3px 7px); }
+.steps { display: grid; gap: 0; order: 1; }
+.step { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 24px 0; }
+.step:first-child { min-height: 50vh; justify-content: start; padding-top: 0; gap: 18px; }
+.step:last-child { min-height: 70vh; }
+.stage { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--muted); }
+.stage b { font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1; color: var(--accent); border: 1px solid var(--accent); border-radius: 3px; padding: 4px 8px 3px; text-transform: uppercase; letter-spacing: .04em; }
+.stage.now { color: var(--text); }
+@media (max-width: 820px) {
+  .story { grid-template-columns: 1fr; gap: 0; }
+  .map-box { order: 0; top: 60px; height: 44vh; z-index: 5; border-radius: 0; margin: 0 -20px; border-left: 0; border-right: 0; }
+  .step { min-height: 70vh; justify-content: end; padding-bottom: 6vh; }
+  .step:first-child { min-height: 56vh; padding-top: 28px; justify-content: start; }
+  .step .pic { max-height: 40vh; }
+  .pic.tall { max-height: 48vh; }
+}
+
+/* Live */
+.live { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.live-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 44px; align-items: center; }
+.live .text { display: grid; gap: 18px; justify-items: start; }
+.tracker { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; aspect-ratio: 4 / 3; background: #0e0c14; position: relative; }
+.tracker iframe { width: 100%; height: 100%; border: 0; display: block; }
+.tracker .fallback { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; gap: 12px; align-content: center; }
+.tracker .fallback[hidden] { display: none; }
+@media (max-width: 820px) { .live-grid { grid-template-columns: 1fr; } }
+
+/* Über mich */
+.about { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 52px; align-items: center; }
+.about .text { display: grid; gap: 18px; }
+.portrait { aspect-ratio: 4 / 5; object-position: 50% 30%; }
+.about .big { font-size: 1.2rem; }
+@media (max-width: 820px) { .about { grid-template-columns: 1fr; gap: 28px; } }
+
+/* Videos & Presse: die Reportage groß, der Rest als Liste */
+.feature { display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px; align-items: center; }
+.feature img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; }
+.feature .text { display: grid; gap: 12px; justify-items: start; }
+.feature h3 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; }
+.thumb-link { position: relative; display: block; }
+.thumb-link::after { content: ""; position: absolute; left: 16px; bottom: 16px; width: 54px; height: 54px; border-radius: 50%; background: var(--accent-strong) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center / 26px no-repeat; }
+.media-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px; margin-top: 40px; border-top: 1px solid var(--line); }
+.media { display: grid; grid-template-columns: 132px 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+.media .text { display: grid; gap: 6px; justify-items: start; }
+.media h3 { font-size: 1.4rem; }
+.meta { font-size: 0.88rem; color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+@media (max-width: 820px) { .feature { grid-template-columns: 1fr; gap: 20px; } .media-list { grid-template-columns: 1fr; } .media { grid-template-columns: 104px 1fr; } }
+
+/* Saison 2027 als Zeitleiste */
+.season { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.season li { display: grid; grid-template-columns: 170px 1fr 1.25fr; gap: 8px 32px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.season .when { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: .03em; color: var(--accent); }
+.season h3 { font-size: 1.8rem; }
+.season .what { display: grid; gap: 4px; }
+.season .why { display: grid; gap: 8px; justify-items: start; }
+@media (max-width: 820px) { .season li { grid-template-columns: 1fr; padding: 22px 0; } .season .when { font-size: 1.05rem; } }
+
+/* Ausrüstung */
+.gear-list { columns: 2; column-gap: 16px; }
+@media (max-width: 820px) { .gear-list { columns: 1; } }
+.gear-list details { border: 1px solid var(--line); border-radius: 6px; background: var(--surface); break-inside: avoid; margin-bottom: 10px; }
+.gear-list summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 16px 20px; font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; text-transform: uppercase; letter-spacing: .02em; }
+.gear-list summary::-webkit-details-marker { display: none; }
+.gear-list summary::after { content: "+"; font-family: var(--font-body); font-weight: 400; font-size: 1.6rem; line-height: 1; color: var(--accent); }
+.gear-list details[open] summary::after { content: "–"; }
+.gear-list summary:focus-visible { outline-offset: -2px; border-radius: 6px; }
+.g-count { margin-left: auto; font-family: var(--font-body); font-size: .85rem; font-weight: 600; color: var(--muted); }
+.gear-list ul { list-style: none; margin: 0; padding: 0 20px 6px; }
+.gear-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); }
+.g-name { font-weight: 600; }
+.gear-list li a { color: var(--accent); font-weight: 600; text-decoration: none; text-align: right; white-space: nowrap; }
+.gear-list li a:hover { text-decoration: underline; }
+.disclaimer { margin-top: 18px; font-size: 0.85rem; color: var(--muted); max-width: 70ch; }
+
+/* Spenden */
+.charity { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.charity-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
+.charity .text { display: grid; gap: 18px; justify-items: start; }
+@media (max-width: 820px) { .charity-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+/* Heller Schlussteil: Partner und Kontakt */
+.light { background: var(--chalk); color: var(--ink); color-scheme: light; }
+.light .muted { color: var(--ink-muted); }
+.light a:focus-visible { outline-color: var(--accent-strong); }
+.partners { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--ink); }
+.partner { padding: 20px 16px 22px 0; border-bottom: 1px solid #cfc5e3; display: grid; gap: 2px; align-content: start; }
+.partner b { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1.05; text-transform: uppercase; overflow-wrap: anywhere; }
+.partner span { font-size: 0.9rem; color: var(--ink-muted); }
+@media (max-width: 900px) { .partners { grid-template-columns: repeat(2, minmax(0, 1fr)); } .partner b { font-size: 1.5rem; } }
+.contact { margin-top: 84px; display: grid; gap: 22px; justify-items: start; }
+.contact h2 { font-size: clamp(3rem, 11vw, 6.6rem); line-height: 0.9; margin-left: -0.03em; }
+.contact .for { font-weight: 600; color: #6a2bd9; }
+.mail { font-size: clamp(1.15rem, 4.6vw, 1.9rem); font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 6px; overflow-wrap: anywhere; }
+.mail:hover { color: #6a2bd9; }
+.socials { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 6px 0 0; padding: 0; list-style: none; font-weight: 600; }
+.socials a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.socials a:hover { color: #6a2bd9; }
+@media (max-width: 760px) { .contact { margin-top: 60px; } }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 0.9rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<a class="skip" href="#top">⟦Zum Inhalt springen¦Skip to content⟧</a>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">Moving <span>Max</span></a>
+    <ul>
+      <li><a href="#route">⟦Aktuelles Projekt¦Current project⟧</a></li>
+      <li><a href="#live">Live</a></li>
+      <li><a href="#projekte">2027</a></li>
+      <li><a href="#ausruestung">⟦Ausrüstung¦Gear⟧</a></li>
+      <li><a href="#spenden">Charity</a></li>
+      <li><a href="#partner">⟦Partner¦Partners⟧</a></li>
+    </ul>
+    <div class="nav-right">
+      ⟦<a class="lang" href="/en/" hreflang="en" lang="en" aria-label="English version">EN</a>¦<a class="lang" href="/" hreflang="de" lang="de" aria-label="Deutsche Version">DE</a>⟧
+      <a class="btn" href="#kontakt">⟦Kontakt¦Contact⟧</a>
+      <button class="burger" id="burger" type="button" aria-label="⟦Menü öffnen¦Open menu⟧" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" hidden>
+    <a href="#route">⟦Aktuelles Projekt¦Current project⟧</a>
+    <a href="#live">Live</a>
+    <a href="#projekte">2027</a>
+    <a href="#ausruestung">⟦Ausrüstung¦Gear⟧</a>
+    <a href="#spenden">Charity</a>
+    <a href="#partner">⟦Partner¦Partners⟧</a>
+    <a href="#kontakt">⟦Kontakt¦Contact⟧</a>
+    ⟦<a href="/en/" hreflang="en" lang="en">English</a>¦<a href="/" hreflang="de" lang="de">Deutsch</a>⟧
+  </nav>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <img class="hero-img" src="{{R}}img/istanbul.jpg" alt="⟦Max jubelt vor der Blauen Moschee in Istanbul¦Max celebrating in front of the Blue Mosque in Istanbul⟧">
+    <div class="hero-in">
+      <p class="kicker">⟦Weltrekordversuch 2026¦World record attempt 2026⟧</p>
+      <h1>⟦Einmal um<br>Europa¦Once around<br>Europe⟧</h1>
+      <p class="lead">⟦Ich bin Max, 23, aus Regensburg. Mit dem Rennrad fahre ich 33.000 km auf den äußersten Straßen um den ganzen Kontinent, allein und ohne ein einziges Flugzeug.¦I’m Max, 23, from Regensburg, Germany. On a road bike I’m riding 33,000 km on the outermost roads around the entire continent, solo and without a single flight.⟧</p>
+      <div class="actions">
+        <a class="btn" href="#route">⟦Route ansehen¦See the route⟧</a>
+        <a class="btn ghost" href="#live"><span class="live-dot"></span>⟦Live verfolgen¦Follow live⟧</a>
+      </div>
+      <p class="press">⟦Bekannt aus der <strong>BR PULS Reportage</strong> und dem <strong>Velo.fm Bikepacking</strong>-Podcast¦As seen in the <strong>BR PULS Reportage</strong> and on the <strong>Velo.fm Bikepacking</strong> podcast⟧</p>
+    </div>
+  </div>
+
+  <div class="band" aria-label="⟦Stand der Europaumrundung¦Progress of the Europe circumnavigation⟧">
+    <div class="wrap">
+      <div class="band-top">
+        <div><b class="num">⟦26.120 km¦26,120 km⟧</b><span>⟦von 33.000 km, Stand 9. November¦of 33,000 km, as of November 9⟧</span></div>
+        <div class="day"><b class="num">⟦Tag¦Day⟧ <span id="bandDay" style="color:inherit;font-size:inherit">143</span></b><span>⟦unterwegs¦on the road⟧</span></div>
+      </div>
+      <div class="track" aria-hidden="true"><div class="track-done" id="trackDone" style="width:79.15%"></div><div class="track-rider" id="trackRider" style="left:79.15%"></div></div>
+      <ol class="ticks" id="ticks" aria-hidden="true">
+        <li class="end0 done">Start</li>
+        <li class="end1" style="left:100%">⟦Ziel¦Finish⟧</li>
+      </ol>
+      <dl class="band-facts">
+        <div><dt>⟦Höhenmeter¦metres climbed⟧</dt><dd class="num">⟦213.654¦213,654⟧</dd></div>
+        <div><dt>⟦längste Etappe am Stück¦longest non-stop stretch⟧</dt><dd class="num">500+ km</dd></div>
+        <div><dt>⟦km pro Tag¦km per day⟧</dt><dd class="num">150–250</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <section id="route">
+    <div class="wrap">
+      <div class="story">
+        <div class="map-box">
+          <svg id="map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="⟦Route der Europaumrundung von Amsterdam einmal um Europa¦Route of the Europe circumnavigation, starting in Amsterdam and going all the way around Europe⟧">
+            <g id="landLayer"></g>
+            <path id="rPlan" class="r-plan"></path>
+            <path id="rAhead" class="r-ahead"></path>
+            <path id="rDone" class="r-done"></path>
+            <g id="pins"></g>
+            <circle id="nowRing" class="now-ring" r="9"></circle>
+            <circle id="rider" class="rider" r="7"></circle>
+          </svg>
+          <div class="map-hud">
+            <div><b id="hudKm">0</b><span id="hudPlace">km · Amsterdam</span></div>
+            <div class="legend"><span><i></i>⟦gefahren¦ridden⟧</span><span><i class="p"></i>⟦kommt noch¦still to come⟧</span></div>
+          </div>
+        </div>
+
+        <div class="steps" id="steps">
+          <div class="step" data-wp="Amsterdam">
+            <h2>⟦Die Europa&shy;umrundung¦Around Europe⟧</h2>
+            <p>⟦Gestartet in Amsterdam, einmal entlang der Küsten und Grenzen um den ganzen Kontinent, ohne Ukraine und Russland. Auf einem umgebauten Rennrad, mit Zelt, Actioncam und jeden Tag neuen Begegnungen.¦Starting in Amsterdam, along the coasts and borders around the entire continent, leaving out Ukraine and Russia. On a modified road bike, with a tent, an action cam and new encounters every day.⟧</p>
+            <p class="muted">⟦Mein Ziel: der Erste und Jüngste zu sein, der Europa auf diesen Straßen mit dem Rennrad umrundet. Scroll weiter und fahr die Route mit.¦My goal: to be the first and youngest person to ride around Europe on these roads by road bike. Keep scrolling and ride the route with me.⟧</p>
+          </div>
+          <div class="step" data-wp="Nordkap">
+            <div class="stage"><b>⟦Etappe 1¦Stage 1⟧</b>⟦Skandinavien¦Scandinavia⟧</div>
+            <h3>⟦Bis ans Nordkap¦To the North Cape⟧</h3>
+            <img class="pic tall" src="{{R}}img/nordkap.jpg" alt="⟦Max am Nordkap-Globus¦Max at the North Cape globe⟧" loading="lazy" style="object-position:50% 70%">
+            <p class="muted">⟦Nordseeküste, Skagen, Schweden und rund 4.000 km Norwegen mit Fjorden bis zum nördlichsten Punkt.¦The North Sea coast, Skagen, Sweden and around 4,000 km of Norwegian fjords up to the northernmost point.⟧</p>
+          </div>
+          <div class="step" data-wp="Tallinn">
+            <div class="stage"><b>⟦Etappe 2¦Stage 2⟧</b>⟦Finnland und Baltikum¦Finland and the Baltics⟧</div>
+            <h3>⟦Entlang der russischen Grenze¦Along the Russian border⟧</h3>
+            <img class="pic" src="{{R}}img/estland.jpg" alt="⟦Windmühle im Kornfeld in Estland¦Windmill in a wheat field in Estonia⟧" loading="lazy" style="object-position:50% 45%">
+            <p class="muted">⟦Von Kirkenes runter bis Helsinki, mit der Fähre nach Tallinn und durchs Baltikum.¦From Kirkenes down to Helsinki, by ferry to Tallinn and on through the Baltics.⟧</p>
+          </div>
+          <div class="step" data-wp="Suceava">
+            <div class="stage"><b>⟦Etappe 3¦Stage 3⟧</b>⟦Osteuropa¦Eastern Europe⟧</div>
+            <h3>⟦Von Polen bis Tiraspol¦From Poland to Tiraspol⟧</h3>
+            <img class="pic" src="{{R}}img/tiraspol.jpg" alt="⟦Max mit seinem Rad in Tiraspol¦Max with his bike in Tiraspol⟧" loading="lazy" style="object-position:50% 40%">
+            <p class="muted">⟦Polen, Slowakei, Ungarn, quer durch Rumänien bis nach Moldau und Transnistrien. Hier sind mir die vielen Straßenhunde aufgefallen.¦Poland, Slovakia, Hungary, right across Romania to Moldova and Transnistria. This is where I first noticed all the street dogs.⟧</p>
+          </div>
+          <div class="step" data-wp="Istanbul">
+            <div class="stage"><b>⟦Etappe 4¦Stage 4⟧</b>⟦Schwarzes Meer¦Black Sea⟧</div>
+            <h3>⟦Ankunft in Istanbul¦Arriving in Istanbul⟧</h3>
+            <img class="pic" src="{{R}}img/tuerkei.jpg" alt="⟦Straßenschild in der Türkei¦Road sign in Turkey⟧" loading="lazy" style="object-position:50% 45%">
+            <p class="muted">⟦Die Schwarzmeerküste runter, durch Bulgarien bis an den Bosporus.¦Down the Black Sea coast and through Bulgaria to the Bosphorus.⟧</p>
+          </div>
+          <div class="step" data-wp="Athen">
+            <div class="stage"><b>⟦Etappe 5¦Stage 5⟧</b>⟦Griechenland¦Greece⟧</div>
+            <h3>⟦Mit Kamerateam zum Olymp¦To Mount Olympus with a film crew⟧</h3>
+            <img class="pic" src="{{R}}img/griechenland.jpg" alt="⟦Max mit dem Kamerateam von BR PULS im Sonnenuntergang in Griechenland¦Max with the BR PULS film crew at sunset in Greece⟧" loading="lazy" style="object-position:50% 55%">
+            <p class="muted">⟦Ab Thessaloniki hat mich BR PULS drei Tage begleitet. Einmal 450 km am Stück mit 4.500 Höhenmetern und kaum Schlaf.¦From Thessaloniki, BR PULS followed me for three days. One day I rode 450 km non-stop with 4,500 m of climbing and hardly any sleep.⟧</p>
+          </div>
+          <div class="step" data-wp="Positano">
+            <div class="stage"><b>⟦Etappe 6¦Stage 6⟧</b>⟦Adria und Italien¦Adriatic and Italy⟧</div>
+            <h3>⟦Einmal den Stiefel runter¦All the way down the boot⟧</h3>
+            <img class="pic" src="{{R}}img/amalfi.jpg" alt="⟦Max auf dem Rad über Positano an der Amalfiküste¦Max riding above Positano on the Amalfi Coast⟧" loading="lazy">
+            <p class="muted">⟦Durch Albanien, Montenegro und Kroatien, dann ganz Italien runter. Geschlafen im Apfelgarten und bei Familien, die mich spontan aufgenommen haben.¦Through Albania, Montenegro and Croatia, then all the way down Italy. I slept in an apple orchard and with families who took me in on the spot.⟧</p>
+          </div>
+          <div class="step" data-wp="Marseille">
+            <div class="stage"><b>⟦Etappe 7¦Stage 7⟧</b>⟦Südfrankreich¦Southern France⟧</div>
+            <h3>Côte d'Azur</h3>
+            <img class="pic" src="{{R}}img/nizza.jpg" alt="⟦Max nachts auf dem Rad vor dem I Love Nice Schriftzug¦Max at night on his bike in front of the I Love Nice sign⟧" loading="lazy" style="object-position:45% 50%">
+            <p class="muted">⟦Von der italienischen Riviera über Nizza und Marseille bis an die spanische Grenze, oft bis tief in die Nacht.¦From the Italian Riviera via Nice and Marseille to the Spanish border, often riding deep into the night.⟧</p>
+          </div>
+          <div class="step" data-wp="Costa Blanca">
+            <div class="stage now"><span class="live-dot"></span>⟦Hier bin ich gerade¦Where I am right now⟧</div>
+            <h3>⟦Spaniens Mittelmeerküste¦Spain’s Mediterranean coast⟧</h3>
+            <p class="muted">⟦Über 26.000 km sind geschafft, knapp vier Fünftel der Runde. Wo ich genau bin, siehst du im Live-Tracking.¦More than 26,000 km done, almost four fifths of the loop. Check the live tracking to see exactly where I am.⟧</p>
+          </div>
+          <div class="step" data-wp="Amsterdam2">
+            <div class="stage">⟦Was noch kommt¦What’s still ahead⟧</div>
+            <h3>⟦Zurück nach Amsterdam¦Back to Amsterdam⟧</h3>
+            <p class="muted">⟦Weiter bis Gibraltar, durch Portugal, die Atlantikküste hoch bis zu den Pyrenäen, Frankreich, Belgien und zurück zum Start. Das Ziel: vor Weihnachten wieder in Amsterdam.¦On to Gibraltar, through Portugal, up the Atlantic coast to the Pyrenees, France, Belgium and back to the start. The goal: back in Amsterdam before Christmas.⟧</p>
+            <div><a class="btn" href="#live"><span class="live-dot"></span>⟦Live mitfahren¦Ride along live⟧</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="live" id="live">
+    <div class="wrap live-grid">
+      <div class="text">
+        <h2>⟦Wo ist Max gerade?¦Where is Max right now?⟧</h2>
+        <p class="muted">⟦Mein GPS-Tracker sendet rund um die Uhr meine Position. Du siehst die gefahrene Strecke, das Tempo und wo ich heute schlafe.¦My GPS tracker sends my position around the clock. You can see the distance I’ve covered, my speed and where I’m sleeping tonight.⟧</p>
+        <a class="btn" href="https://www.followmychallenge.com/live/europe-circumnavigation-2026/" target="_blank" rel="noopener">⟦Live-Karte öffnen¦Open live map⟧</a>
+        <p class="small muted">⟦Tracking von Follow My Challenge¦Tracking by Follow My Challenge⟧</p>
+      </div>
+      <div class="tracker" id="tracker">
+        <iframe id="trackerFrame" title="⟦Live-Tracking der Europaumrundung¦Live tracking of the Europe circumnavigation⟧" loading="lazy" data-src="https://www.followmychallenge.com/live/europe-circumnavigation-2026/"></iframe>
+        <div class="fallback" id="trackerFallback" hidden>
+          <span class="live-dot"></span>
+          <p class="muted">⟦Auf deiner Website erscheint hier die Live-Karte. In dieser Vorschau kann sie nicht geladen werden.¦The live map appears here on the published website. It can’t be loaded in this preview.⟧</p>
+          <a class="btn ghost" href="https://www.followmychallenge.com/live/europe-circumnavigation-2026/" target="_blank" rel="noopener">⟦Karte in neuem Tab öffnen¦Open map in a new tab⟧</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ueber">
+    <div class="wrap about">
+      <img class="pic portrait" src="{{R}}img/portrait.jpg" alt="⟦Portrait von Max mit Helm¦Portrait of Max wearing a helmet⟧" loading="lazy">
+      <div class="text">
+        <h2>⟦Jeden Tag an die Grenze¦Pushing my limits every day⟧</h2>
+        <p class="big">⟦Ich suche ständig die nächste Herausforderung und verlasse meine Komfortzone so weit wie möglich, weil ich genau das liebe. Unterwegs zählen für mich vor allem die Menschen, die ich treffe, und die Kulturen, die ich kennenlerne.¦I’m always looking for the next challenge and push myself as far out of my comfort zone as I can, because that’s exactly what I love. On the road, what matters most to me are the people I meet and the cultures I get to know.⟧</p>
+        <p class="muted">⟦Mein Ziel: Ultracycling zu meinem Beruf machen und andere dazu bringen, ihre Sachen zu packen und ihr eigenes Abenteuer zu starten.¦My goal: to make ultracycling my job and inspire others to pack their bags and start their own adventure.⟧</p>
+        <p class="muted">⟦Vor der Europaumrundung: Unknown Race 2026, 889 km in 3 Tagen und 7 Stunden.¦Before the Europe circumnavigation: Unknown Race 2026, 889 km in 3 days and 7 hours.⟧</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="videos" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <h2>⟦Die Tour zum Anschauen¦Watch the tour⟧</h2>
+      </div>
+      <div class="feature">
+        <a class="thumb-link" href="https://youtu.be/OeSEME_j1uY" target="_blank" rel="noopener"><img src="{{R}}img/br-puls.jpg" alt="⟦Thumbnail der PULS Reportage Radtour Extrem¦Thumbnail of the PULS Reportage documentary⟧" loading="lazy"></a>
+        <div class="text">
+          <span class="meta">⟦PULS Reportage, Bayerischer Rundfunk, 27 Minuten¦PULS Reportage, Bayerischer Rundfunk, 27 minutes, in German⟧</span>
+          <h3>⟦33.000 km um Europa mit dem Bike¦33,000 km around Europe by bike⟧</h3>
+          <p class="muted">⟦Ein Kamerateam hat mich drei Tage von Thessaloniki Richtung Olymp und Athen begleitet.¦A film crew followed me for three days from Thessaloniki towards Mount Olympus and Athens.⟧</p>
+          <a class="link" href="https://youtu.be/OeSEME_j1uY" target="_blank" rel="noopener">⟦Reportage ansehen¦Watch the documentary⟧</a>
+        </div>
+      </div>
+      <div class="media-list">
+        <div class="media">
+          <a href="https://youtu.be/Ip2oepK15No" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="{{R}}img/yt-woche1.jpg" alt="" loading="lazy"></a>
+          <div class="text">
+            <span class="meta">⟦YouTube, jede Woche ein neues Video¦YouTube, a new video every week⟧</span>
+            <h3>⟦Das Tour-Tagebuch¦The tour diary⟧</h3>
+            <p class="muted small">⟦Die Strecke, die Leute und alles, was schiefgeht.¦The route, the people and everything that goes wrong.⟧</p>
+            <div class="links"><a class="link" href="https://youtu.be/Ip2oepK15No" target="_blank" rel="noopener">⟦Woche 1 ansehen¦Watch week 1⟧</a><a class="link" href="https://www.youtube.com/@MovingMaxx" target="_blank" rel="noopener">⟦Zum Kanal¦Go to the channel⟧</a></div>
+          </div>
+        </div>
+        <div class="media">
+          <a href="https://open.spotify.com/episode/4W1KhOOyWqXditovPO1Z3s" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="{{R}}img/podcast.jpg" alt="" loading="lazy" style="object-position:50% 35%"></a>
+          <div class="text">
+            <span class="meta">⟦velo.fm Bikepacking Podcast, Folge 63¦velo.fm Bikepacking Podcast, episode 63, in German⟧</span>
+            <h3>⟦Zwischenbericht aus Istanbul¦Update from Istanbul⟧</h3>
+            <p class="muted small">⟦Nach über 15.000 km und gut 75 Tagen erzähle ich, wie die Tour bis Istanbul gelaufen ist.¦After more than 15,000 km and a good 75 days, I talk about how the tour went up to Istanbul.⟧</p>
+            <div class="links"><a class="link" href="https://open.spotify.com/episode/4W1KhOOyWqXditovPO1Z3s" target="_blank" rel="noopener">⟦Auf Spotify anhören¦Listen on Spotify⟧</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projekte" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <h2>⟦Saison 2027¦2027 season⟧</h2>
+        <p class="muted">⟦Für diese Projekte suche ich Partner. Wenn eins davon zu deiner Marke passt, <a class="link" href="#kontakt">melde dich</a>.¦I’m looking for partners for these projects. If one of them fits your brand, <a class="link" href="#kontakt">get in touch</a>.⟧</p>
+      </div>
+      <ol class="season">
+        <li><div class="when">⟦Mai¦May⟧</div><div class="what"><h3>⟦Community Ride Italien¦Community Ride Italy⟧</h3><span class="meta">⟦Ab 21. Mai, von Regensburg zum Giro d’Italia¦From May 21, Regensburg to the Giro d’Italia⟧</span></div><div class="why"><p class="muted">⟦Gemeinsam fahren statt allein: an den Bodensee, über einen Pass mit Bergwertung und bis zum Giro.¦Riding together instead of alone: to Lake Constance, over a pass with a KOM and on to the Giro.⟧</p><a class="link" href="{{R}}community-ride.html">⟦Infos und WhatsApp-Gruppe¦Details (in German)⟧</a></div></li>
+        <li><div class="when">⟦Juli¦July⟧</div><div class="what"><h3>⟦24-Stunden-Rennen¦24-hour race⟧</h3><span class="meta">⟦10./11. Juli, Saisonhöhepunkt¦July 10–11, season highlight⟧</span></div><div class="why"><p class="muted">⟦Darauf ist die erste Jahreshälfte ausgerichtet, mit MTB- und kürzeren Rennen als Vorbereitung.¦The first half of the year builds up to this, with MTB and shorter races as preparation.⟧</p></div></li>
+        <li><div class="when">August</div><div class="what"><h3>⟦Bayerns Grenzen¦Bavaria’s borders⟧</h3><span class="meta">⟦1.895 km, 22.600 Höhenmeter¦1,895 km, 22,600 m of climbing⟧</span></div><div class="why"><p class="muted">⟦Einmal mit dem Rennrad an Bayerns Grenze entlang, um Spenden für Kinder in Not zu sammeln.¦Riding the entire border of Bavaria by road bike to raise money for children in need.⟧</p></div></li>
+        <li><div class="when">September</div><div class="what"><h3>Unknown Race</h3><span class="meta">⟦Ultra-Rennen, 7. bis 11. September¦Ultra race, September 7–11⟧</span></div><div class="why"><p class="muted">⟦Zweiter Start nach 2026, diesmal mit dem Ziel, vorne mitzufahren.¦My second start after 2026, this time aiming for the front of the field.⟧</p></div></li>
+        <li><div class="when">⟦Herbst¦Autumn⟧</div><div class="what"><h3>Berlin – Istanbul</h3><span class="meta">⟦Zeitfahrrad, Begleitfahrzeug, Kamerateam¦Time trial bike, support vehicle, film crew⟧</span></div><div class="why"><p class="muted">⟦So schnell wie möglich von Berlin bis an den Bosporus. Daraus entsteht ein Dokumentarfilm.¦From Berlin to the Bosphorus as fast as possible, turned into a documentary.⟧</p></div></li>
+        <li><div class="when">⟦Februar 2028¦February 2028⟧</div><div class="what"><h3>Atlas Mountain Race</h3><span class="meta">⟦Marokko, MTB-Ultra¦Morocco, MTB ultra⟧</span></div><div class="why"><p class="muted">⟦Quer durchs Atlasgebirge, unsupported. Der Start in die Saison 2028.¦Across the Atlas Mountains, unsupported. Kicking off the 2028 season.⟧</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="ausruestung" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <h2>⟦Damit fahre ich¦What I ride with⟧</h2>
+        <p class="muted">⟦Alles, was ich auf über 26.000 km wirklich benutzt habe. Tipp auf eine Kategorie, dann siehst du die Produkte mit Link.¦Everything I’ve actually used over more than 26,000 km. Tap a category to see the products with links.⟧</p>
+      </div>
+      <div class="gear-list">
+        <details open>
+          <summary><span>⟦Taschen¦Bags⟧</span><span class="g-count">4</span></summary>
+          <ul>
+            <li><span class="g-name">⟦Arschrakete (Satteltasche)¦Arschrakete (saddle bag)⟧</span><a href="https://tidd.ly/4vhBInd" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Rahmentasche¦Frame bag⟧</span><a href="https://tidd.ly/3PXnWaa" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Oberrohrtasche¦Top tube bag⟧</span><a href="https://tidd.ly/4dDpPSG" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">Aero Bag</span><a href="https://tidd.ly/4vhBGf5" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>⟦Schlafen & Kochen¦Sleeping & cooking⟧</span><span class="g-count">4</span></summary>
+          <ul>
+            <li><span class="g-name">⟦Zelt¦Tent⟧</span><a href="https://tidd.ly/4wYbGaj" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Schlafsack¦Sleeping bag⟧</span><a href="https://tidd.ly/4fQEFGP" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Schlafmatte¦Sleeping pad⟧</span><a href="https://tidd.ly/49rrQiq" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Gaskocher¦Gas stove⟧</span><a href="https://tidd.ly/4wZGszA" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>⟦Technik & Licht¦Tech & lights⟧</span><span class="g-count">3</span></summary>
+          <ul>
+            <li><span class="g-name">⟦Lichter¦Lights⟧</span><a href="https://tidd.ly/3RRZgk4" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">GPS-Tracker</span><a href="https://followmychallenge.com/" target="_blank" rel="noopener">Follow My Challenge</a></li>
+            <li><span class="g-name">⟦Kopfhörer¦Headphones⟧</span><a href="https://de.shokz.com/" target="_blank" rel="noopener">Shokz</a></li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>⟦Werkzeug & Pannen¦Tools & repairs⟧</span><span class="g-count">7</span></summary>
+          <ul>
+            <li><span class="g-name">⟦Werkzeug¦Multi-tool⟧</span><a href="https://tidd.ly/4a63pan" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Pumpe¦Pump⟧</span><a href="https://tidd.ly/43JwdSl" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Ersatzschlauch¦Spare tube⟧</span><a href="https://tidd.ly/4vgxWdH" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Kettenwachs¦Chain wax⟧</span><a href="https://pd-chain-wax.de/" target="_blank" rel="noopener">Perfect Drive</a></li>
+            <li><span class="g-name">⟦Ersatzteile¦Spare parts⟧</span><a href="https://www.feine-raeder.de/" target="_blank" rel="noopener">Feine Räder Regensburg</a></li>
+            <li><span class="g-name">⟦Schlösser¦Locks⟧</span><a href="https://tidd.ly/4dRKFN3" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Taschenmesser¦Pocket knife⟧</span><a href="https://tidd.ly/4vjJL2X" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>⟦Sicherheit¦Safety⟧</span><span class="g-count">2</span></summary>
+          <ul>
+            <li><span class="g-name">⟦Erste-Hilfe-Set¦First aid kit⟧</span><a href="https://tidd.ly/4nV80lq" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Warnweste¦Hi-vis vest⟧</span><a href="https://tidd.ly/4wYiiVV" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>⟦Bekleidung¦Clothing⟧</span><span class="g-count">6</span></summary>
+          <ul>
+            <li><span class="g-name">⟦Cratoni Helm¦Cratoni helmet⟧</span><a href="https://www.feine-raeder.de/" target="_blank" rel="noopener">Feine Räder Regensburg</a></li>
+            <li><span class="g-name">⟦Rennrad-Trikot¦Cycling jersey⟧</span><a href="https://www.feine-raeder.de/" target="_blank" rel="noopener">Feine Räder Regensburg</a></li>
+            <li><span class="g-name">⟦Baselayer weiß¦White base layer⟧</span><a href="https://www.decathlon.de/" target="_blank" rel="noopener">Decathlon</a></li>
+            <li><span class="g-name">⟦Aero-Socken¦Aero socks⟧</span><a href="https://afforcyclingclub.com/" target="_blank" rel="noopener">Affor Cycling Club</a></li>
+            <li><span class="g-name">Buff</span><a href="https://tidd.ly/3RG6PdB" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+            <li><span class="g-name">⟦Überschuhe¦Overshoes⟧</span><a href="https://tidd.ly/4ecBlEC" target="_blank" rel="noopener sponsored">⟦Zum Produkt*¦View product*⟧</a></li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>⟦Trinken¦Hydration⟧</span><span class="g-count">1</span></summary>
+          <ul>
+            <li><span class="g-name">⟦KEEGO Titanflasche¦KEEGO titanium bottle⟧</span><a href="https://keego.at" target="_blank" rel="noopener">KEEGO</a></li>
+          </ul>
+        </details>
+      </div>
+      <p class="disclaimer">⟦* Affiliate-Link (Werbung): Wenn du darüber kaufst, bekomme ich eine kleine Provision. Für dich ändert sich am Preis nichts.¦* Affiliate link (advertising): if you buy through it, I get a small commission. The price stays the same for you.⟧</p>
+    </div>
+  </section>
+
+  <section class="charity" id="spenden">
+    <div class="wrap charity-grid">
+      <div class="text">
+        <h2>⟦33.000 km für Straßenhunde¦33,000 km for street dogs⟧</h2>
+        <p>⟦In Rumänien, Bulgarien, der Türkei und Griechenland habe ich unzählige Straßentiere gesehen, viele davon tot am Straßenrand. Deshalb sammle ich mit der Tour Spenden für das Tierheim <strong>Arche Făget</strong> in Rumänien.¦In Romania, Bulgaria, Turkey and Greece I saw countless street animals, many of them dead by the roadside. That’s why I’m using the tour to raise money for the <strong>Arche Făget</strong> animal shelter in Romania.⟧</p>
+        <p class="muted">⟦Jeder Euro geht über betterplace direkt an den Verein Straßenhunde Rumänien in Not e.V.¦Every euro goes via betterplace directly to the charity Straßenhunde Rumänien in Not e.V.⟧</p>
+        <a class="btn" href="https://www.betterplace.org/de/fundraising-events/57712-a-europe-circumnavigation-for-romanian-street-dogs" target="_blank" rel="noopener">⟦Jetzt spenden¦Donate now⟧</a>
+      </div>
+      <img class="pic" src="{{R}}img/tierheim.jpg" alt="⟦Schild des Vereins Straßenhunde Rumänien in Not am Tierheim Arche Făget¦Sign of the charity Straßenhunde Rumänien in Not at the Arche Făget shelter⟧" loading="lazy">
+    </div>
+  </section>
+
+  <section class="light" id="partner">
+    <div class="wrap">
+      <div class="head">
+        <h2>⟦Sie fahren mit¦Riding with me⟧</h2>
+      </div>
+      <div class="partners">
+        <div class="partner"><b>Keego</b><span>⟦Titan-Trinkflaschen¦Titanium bottles⟧</span></div>
+        <div class="partner"><b>bikepacking.de</b><span>⟦Ausrüstung¦Gear⟧</span></div>
+        <div class="partner"><b>Feine Räder</b><span>⟦Bike, Regensburg¦Bike shop, Regensburg⟧</span></div>
+        <div class="partner"><b>Milk It</b><span>⟦Reifendichtmilch¦Tyre sealant⟧</span></div>
+        <div class="partner"><b>Perfect Drive</b><span>⟦Kettenwachs¦Chain wax⟧</span></div>
+      </div>
+
+      <div class="contact" id="kontakt">
+        <p class="for">⟦Sponsoring, Vorträge, Medien¦Sponsorship, talks, media⟧</p>
+        <h2>⟦Lass uns zusammen&shy;arbeiten¦Let’s work together⟧</h2>
+        <p class="muted">⟦Ob du eins meiner nächsten Projekte als Partner unterstützen willst, einen Vortrag für deine Schule, deinen Verein oder dein Unternehmen suchst oder über die Tour berichten möchtest: Schreib mir.¦Whether you want to support one of my next projects as a partner, are looking for a speaker for your school, club or company, or want to cover the tour: drop me a line.⟧</p>
+        <a class="mail" href="mailto:maximilianvreischl@gmail.com">maximilianvreischl@gmail.com</a>
+        <ul class="socials">
+          <li><a href="https://www.instagram.com/movingmaxx/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@MovingMaxx" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@movingmax" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.strava.com/athletes/136572386" target="_blank" rel="noopener">Strava</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Max Reischl · Moving Max</span>
+    <span>⟦<a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>¦<a href="../impressum.html">Legal notice</a> · <a href="../datenschutz.html">Privacy</a>⟧</span>
+  </div>
+</footer>
+
+<script>
+// Überschrift: Buchstaben fallen beim Laden nacheinander von oben rein
+(function () {
+  var h = document.querySelector(".hero h1");
+  if (!h || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  var box = document.createElement("span"), i = 0, label = [];
+  box.setAttribute("aria-hidden", "true");
+  Array.prototype.slice.call(h.childNodes).forEach(function (n) {
+    if (n.nodeType !== 3) { box.appendChild(n.cloneNode(true)); return; }
+    n.textContent.split(/(\s+)/).forEach(function (part) {
+      if (!part) return;
+      if (/^\s+$/.test(part)) { box.appendChild(document.createTextNode(" ")); return; }
+      label.push(part);
+      var w = document.createElement("span"); w.className = "w";
+      part.split("").forEach(function (c) { var s = document.createElement("span"); s.className = "ch"; s.style.setProperty("--i", i++); s.textContent = c; w.appendChild(s); });
+      box.appendChild(w);
+    });
+  });
+  h.setAttribute("aria-label", label.join(" "));
+  h.textContent = ""; h.appendChild(box);
+})();
+</script>
+<script>
+(function () {
+  // ---------- Stand der Tour: nur diese drei Zeilen anpassen ----------
+  var NOW = "Costa Blanca";            // Wegpunkt, an dem Max gerade ist (Name aus der Liste unten)
+  var TOTAL_KM = 33000, NOW_KM = 26120; // Gesamtstrecke und gefahrene Kilometer
+  var START = Date.UTC(2026, 5, 21);    // Tag 1 der Tour (21. Juni 2026)
+
+  // ---------- Route (lat, lon) ----------
+  var RAW = [
+    ["Amsterdam",52.37,4.90],[,52.96,4.76],[,53.33,6.93],[,53.87,8.69],[,55.47,8.45],[,57.12,8.62],["Skagen",57.72,10.58],
+    [,56.45,10.95],["Kopenhagen",55.68,12.57],[,55.60,13.00],[,56.05,12.70],[,57.70,11.97],[,58.90,11.30],["Oslo",59.91,10.75],
+    [,59.05,9.80],[,58.15,8.00],[,58.30,6.60],[,58.97,5.73],["Bergen",60.39,5.32],[,61.60,5.05],[,62.47,6.15],[,63.10,7.75],
+    ["Trondheim",63.43,10.39],[,64.47,11.50],[,65.85,12.60],[,67.28,14.40],[,68.43,17.43],["Tromsø",69.65,18.96],[,69.97,23.27],
+    ["Nordkap",71.17,25.78],[,70.45,27.20],[,70.40,28.60],["Kirkenes",69.73,30.05],[,68.66,27.54],[,67.40,28.70],[,65.97,29.18],
+    [,64.20,30.00],[,62.60,29.76],[,61.06,28.19],["Helsinki",60.17,24.94],["Tallinn",59.44,24.75],[,59.38,28.19],[,58.38,27.40],
+    [,57.40,27.50],[,55.87,26.53],[,54.69,25.80],[,53.80,23.70],[,52.40,23.40],[,51.25,23.70],[,49.78,22.77],[,49.10,22.30],
+    [,48.72,21.26],[,48.10,22.10],[,47.79,22.89],[,47.90,24.40],["Suceava",47.65,26.25],[,47.70,27.60],[,47.01,28.86],[,45.90,28.40],
+    [,45.43,28.03],[,44.90,29.40],[,44.17,28.63],[,43.21,27.91],[,42.50,27.47],[,41.95,28.00],[,41.40,28.60],["Istanbul",41.01,28.98],
+    [,40.97,27.50],[,40.85,25.87],[,40.95,24.40],["Thessaloniki",40.64,22.94],[,40.08,22.36],[,39.36,22.94],[,38.90,22.60],
+    ["Athen",37.98,23.73],[,38.10,22.70],[,38.25,21.73],[,38.60,21.00],[,39.50,20.27],[,40.45,19.49],[,41.32,19.45],
+    [,42.10,19.10],[,42.42,18.77],[,42.65,18.09],[,43.05,17.45],[,43.51,16.44],[,44.12,15.23],[,45.33,14.44],[,45.65,13.78],
+    [,45.44,12.32],[,44.40,12.25],[,43.62,13.52],[,42.40,14.20],[,41.90,15.60],[,41.12,16.87],[,40.35,18.17],[,39.80,18.35],
+    [,40.47,17.24],[,39.90,16.60],[,38.90,16.60],[,38.11,15.65],[,38.90,16.10],[,39.90,15.70],[,40.63,14.48],["Positano",40.63,14.48],
+    [,40.85,14.27],[,41.25,13.20],[,41.90,12.50],[,42.40,11.20],[,43.55,10.31],[,44.10,9.80],[,44.41,8.93],[,43.80,7.90],
+    [,43.70,7.27],[,43.12,6.10],["Marseille",43.30,5.37],
+    [,43.61,3.88],[,42.70,3.05],[,41.98,3.20],["Barcelona",41.39,2.17],[,40.80,0.80],["Valencia",39.47,-0.38],["Costa Blanca",38.35,-0.48],[,37.60,-0.98],
+    [,36.84,-2.46],[,36.72,-4.42],["Gibraltar",36.14,-5.35],[,36.53,-6.29],[,37.20,-7.40],[,37.02,-7.93],[,37.00,-8.94],
+    [,38.00,-8.80],["Lissabon",38.72,-9.14],[,39.60,-9.05],[,41.15,-8.61],[,42.24,-8.72],[,43.36,-8.41],[,43.75,-7.70],
+    [,43.54,-5.66],[,43.46,-3.80],[,43.26,-2.93],[,43.48,-1.56],[,44.40,-1.20],[,44.84,-0.58],[,46.16,-1.15],[,47.22,-1.55],
+    [,47.75,-3.40],[,48.39,-4.49],[,48.65,-2.00],[,49.64,-1.62],[,49.30,-0.40],[,49.49,0.11],[,50.20,1.60],[,50.95,1.86],
+    [,51.23,2.92],[,51.22,4.40],[,51.92,4.48],["Amsterdam2",52.37,4.90]
+  ];
+  var PLACE = ⟦{}¦{"Athen":"Athens","Kopenhagen":"Copenhagen","Lissabon":"Lisbon","Nordkap":"North Cape"}⟧;
+  var LOCALE = "⟦de-DE¦en-US⟧";
+  function label(n) { return PLACE[n] || n; }
+
+  // ---------- Projektion: Lambert flächentreu ----------
+  var D = Math.PI / 180, L0 = 13 * D, P0 = 55 * D;
+  function proj(lat, lon) {
+    var p = lat * D, l = lon * D;
+    var k = Math.sqrt(2 / (1 + Math.sin(P0) * Math.sin(p) + Math.cos(P0) * Math.cos(p) * Math.cos(l - L0)));
+    return [k * Math.cos(p) * Math.sin(l - L0), k * (Math.cos(P0) * Math.sin(p) - Math.sin(P0) * Math.cos(p) * Math.cos(l - L0))];
+  }
+  var pts = RAW.map(function (r) { return proj(r[1], r[2]); });
+  var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  pts.forEach(function (q) { minX = Math.min(minX, q[0]); maxX = Math.max(maxX, q[0]); minY = Math.min(minY, q[1]); maxY = Math.max(maxY, q[1]); });
+  var pad = 0.06, W = 1000, H = 1000;
+  var s = Math.min(W / ((maxX - minX) * (1 + 2 * pad)), H / ((maxY - minY) * (1 + 2 * pad)));
+  var cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  function toSvg(lat, lon) { var q = proj(lat, lon); return [W / 2 + (q[0] - cx) * s, H / 2 - (q[1] - cy) * s]; }
+
+  var svgPts = RAW.map(function (r) { return toSvg(r[1], r[2]); });
+  function pathOf(a) { return a.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(""); }
+  var nowIdx = RAW.findIndex(function (r) { return r[0] === NOW; });
+
+  var $ = function (id) { return document.getElementById(id); };
+  var rPlan = $("rPlan"), rDone = $("rDone"), rAhead = $("rAhead"), rider = $("rider"), ring = $("nowRing");
+  rPlan.setAttribute("d", pathOf(svgPts));
+  rDone.setAttribute("d", pathOf(svgPts.slice(0, nowIdx + 1)));
+  rAhead.setAttribute("d", pathOf(svgPts.slice(nowIdx)));
+  ring.setAttribute("cx", svgPts[nowIdx][0]); ring.setAttribute("cy", svgPts[nowIdx][1]);
+
+  var lenDone = rDone.getTotalLength(), lenAhead = rAhead.getTotalLength();
+  rDone.style.strokeDasharray = lenDone + " " + lenDone;
+  rAhead.style.strokeDasharray = lenAhead + " " + lenAhead;
+
+  var cum = [0];
+  for (var i = 1; i < svgPts.length; i++) {
+    var a = svgPts[i - 1], b = svgPts[i];
+    cum.push(cum[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1]));
+  }
+  var cumNow = cum[nowIdx], cumEnd = cum[cum.length - 1];
+  function kmAt(L) { return L <= cumNow ? NOW_KM * L / cumNow : NOW_KM + (TOTAL_KM - NOW_KM) * (L - cumNow) / (cumEnd - cumNow); }
+
+  // ---------- Streckenband oben ----------
+  (function () {
+    var share = 100 * NOW_KM / TOTAL_KM;
+    $("trackDone").style.width = share + "%"; $("trackRider").style.left = share + "%";
+    var day = Math.floor((Date.now() - START) / 864e5) + 1;
+    if (day > 0) $("bandDay").textContent = day;
+    var ticks = $("ticks"), last = ticks.lastElementChild;
+    [["Nordkap", 0], ["Tallinn", 1], ["Istanbul", 0], ["Athen", 1], ["Positano", 1], ["Gibraltar", 0], ["Lissabon", 1]].forEach(function (t) {
+      var idx = RAW.findIndex(function (r) { return r[0] === t[0]; });
+      if (idx < 0) return;
+      var pos = 100 * kmAt(cum[idx]) / TOTAL_KM;
+      if (Math.abs(pos - share) < 5) return;
+      var li = document.createElement("li");
+      li.textContent = label(t[0]); li.style.left = pos + "%";
+      li.className = (t[1] ? "minor " : "") + (idx <= nowIdx ? "done" : "");
+      ticks.insertBefore(li, last);
+    });
+  })();
+
+  // ---------- Kapitel-Pins ----------
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var pinLayer = $("pins"), NS = "http://www.w3.org/2000/svg";
+  var stepLen = steps.map(function (st) {
+    var idx = RAW.findIndex(function (r) { return r[0] === st.dataset.wp; });
+    if (idx < 0) idx = 0;
+    var c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", svgPts[idx][0]); c.setAttribute("cy", svgPts[idx][1]); c.setAttribute("r", 6); c.setAttribute("class", "pin");
+    if (st.dataset.wp !== "Amsterdam2" && idx !== nowIdx) pinLayer.appendChild(c);
+    st._pin = c;
+    return cum[idx];
+  });
+
+  function placeName(L) {
+    var name = "Amsterdam";
+    for (var i = 0; i < RAW.length; i++) { if (cum[i] <= L + 0.5 && RAW[i][0]) name = RAW[i][0].replace("2", ""); }
+    return label(name);
+  }
+
+  function draw(L) {
+    L = Math.max(0, Math.min(cumEnd, L));
+    var d1 = Math.min(L, cumNow), d2 = Math.max(0, L - cumNow);
+    rDone.style.strokeDashoffset = (lenDone - d1 * (lenDone / cumNow)).toFixed(1);
+    rAhead.style.strokeDashoffset = (lenAhead - d2 * (lenAhead / (cumEnd - cumNow))).toFixed(1);
+    var p = L <= cumNow ? rDone.getPointAtLength(d1 * (lenDone / cumNow)) : rAhead.getPointAtLength(d2 * (lenAhead / (cumEnd - cumNow)));
+    rider.setAttribute("cx", p.x); rider.setAttribute("cy", p.y);
+    $("hudKm").textContent = Math.round(kmAt(L)).toLocaleString(LOCALE);
+    $("hudPlace").textContent = "km · " + placeName(L);
+    steps.forEach(function (st, i) { st._pin.classList.toggle("on", stepLen[i] <= L + 1 && stepLen[i] <= cumNow); });
+  }
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function onScroll() {
+    if (reduce) { draw(cumNow); return; }
+    var line = window.innerHeight * (window.innerWidth <= 820 ? 0.8 : 0.55);
+    var tops = steps.map(function (st) { return st.getBoundingClientRect().top; });
+    var L;
+    if (line < tops[0]) L = 0;
+    else {
+      L = stepLen[stepLen.length - 1];
+      for (var i = 0; i < steps.length - 1; i++) {
+        if (line >= tops[i] && line < tops[i + 1]) {
+          L = stepLen[i] + (stepLen[i + 1] - stepLen[i]) * (line - tops[i]) / (tops[i + 1] - tops[i]);
+          break;
+        }
+      }
+    }
+    draw(L);
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; onScroll(); }); } }, { passive: true });
+  window.addEventListener("resize", onScroll);
+  onScroll();
+
+  // ---------- Landflächen (aus ECharts-Weltkarte, falls sie lädt) ----------
+  function decode(str, off, scale) {
+    var out = [], px = off[0], py = off[1];
+    for (var i = 0; i < str.length; i += 2) {
+      var x = str.charCodeAt(i) - 64, y = str.charCodeAt(i + 1) - 64;
+      x = (x >> 1) ^ (-(x & 1)); y = (y >> 1) ^ (-(y & 1));
+      x += px; y += py; px = x; py = y;
+      out.push([x / scale, y / scale]);
+    }
+    return out;
+  }
+  function ringPath(ring) {
+    var d = "", first = true;
+    for (var i = 0; i < ring.length; i++) {
+      var lon = ring[i][0], lat = ring[i][1];
+      if (lon < -35 || lon > 70 || lat < 25) continue;
+      var p = toSvg(lat, lon);
+      d += (first ? "M" : "L") + p[0].toFixed(1) + " " + p[1].toFixed(1);
+      first = false;
+    }
+    return d ? d + "Z" : "";
+  }
+  window.__drawLand = function (geo) {
+    try {
+      var enc = !!geo.UTF8Encoding, scale = geo.UTF8Scale || 1024, d = "";
+      geo.features.forEach(function (f) {
+        var g = f.geometry; if (!g) return;
+        var polys = g.type === "Polygon" ? [g.coordinates] : g.coordinates;
+        var offs = g.type === "Polygon" ? [g.encodeOffsets] : g.encodeOffsets;
+        polys.forEach(function (poly, pi) {
+          poly.forEach(function (ring, ri) { d += ringPath(enc ? decode(ring, offs[pi][ri], scale) : ring); });
+        });
+      });
+      var path = document.createElementNS(NS, "path");
+      path.setAttribute("d", d); path.setAttribute("class", "land");
+      $("landLayer").appendChild(path);
+    } catch (e) { /* ohne Landflächen zeigt die Route allein die Umrisse Europas */ }
+  };
+
+  // ---------- Live-Tracking einbetten ----------
+  var frame = $("trackerFrame");
+  if (/claude|anthropic|localhost|^$/.test(location.hostname) || location.protocol === "file:") {
+    frame.remove(); $("trackerFallback").hidden = false;
+  } else {
+    frame.src = frame.dataset.src;
+  }
+})();
+
+// aktiven Menüpunkt markieren
+(function () {
+  var links = document.querySelectorAll('.nav ul a');
+  var map = {}; links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { links.forEach(function (a) { a.classList.remove('on'); }); if (map[e.target.id]) map[e.target.id].classList.add('on'); } });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+})();
+
+// Burger-Menü
+(function () {
+  var b = document.getElementById('burger'), m = document.getElementById('mobileMenu');
+  function set(open) { b.setAttribute('aria-expanded', open); b.setAttribute('aria-label', open ? '⟦Menü schließen¦Close menu⟧' : '⟦Menü öffnen¦Open menu⟧'); m.hidden = !open; }
+  b.addEventListener('click', function () { set(m.hidden); });
+  m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  set(false);
+})();
+</script>
+<script>window.echarts = { registerMap: function (name, geo) { if (window.__drawLand) window.__drawLand(geo); } };</script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js" async></script>
+</body>
+</html>

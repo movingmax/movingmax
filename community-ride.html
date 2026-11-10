@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Community Ride 2027 · Regensburg → Giro d’Italia · Moving Max</title>
-<meta name="description" content="Community Ride mit Moving Max ab 21. Mai 2027: von Regensburg an den Bodensee, über die Alpen zum Giro d’Italia nach Monza und mit dem Rad über Brenner und Innsbruck zurück. Jetzt auf die Interessenliste.">
+<meta name="description" content="Community Ride mit Moving Max ab 21. Mai 2027: von Regensburg an den Bodensee, über die Alpen zum Giro d’Italia nach Monza und mit dem Rad über Brenner und Innsbruck zurück. Alle Infos gibt es in der WhatsApp-Gruppe.">
 <link rel="canonical" href="https://movingmax.cc/community-ride.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://movingmax.cc/community-ride.html">
@@ -142,10 +142,10 @@ footer a { color: var(--muted); }
         <h1>Regensburg&nbsp;<em>→</em> Giro</h1>
         <p class="lead">Gemeinsam an den Bodensee, über die Alpen zum Giro d’Italia nach Monza, live an der Königsetappe am Mortirolo und mit dem Rad über Brenner und Innsbruck wieder heim.</p>
         <div class="actions">
-          <a class="btn" href="#anmelden">Auf die Interessenliste</a>
+          <a class="btn" href="https://chat.whatsapp.com/K27oGeeaAZXHlJTvbcMQlq" target="_blank" rel="noopener">In die WhatsApp-Gruppe</a>
           <a class="btn ghost" href="#ablauf">Der Plan</a>
         </div>
-        <p class="note"><strong>Noch in Planung.</strong> Ich will erst wissen, wie viele Bock haben. Trag dich unverbindlich ein, dann bekommst du alle Infos zu Ablauf, Unterkünften und Kosten als Erstes.</p>
+        <p class="note"><strong>Noch in Planung.</strong> Ich will erst wissen, wie viele Bock haben. Komm unverbindlich in die WhatsApp-Gruppe, dort bekommst du alle Infos zu Ablauf, Unterkünften und Kosten als Erstes.</p>
       </div>
       <img class="hero-pic" src="img/amalfi.jpg" alt="Max auf dem Rad über Positano an der Amalfiküste">
     </div>
@@ -167,19 +167,16 @@ footer a { color: var(--muted); }
             <li>Kostenlos</li>
             <li>Rückweg organisierst du selbst</li>
           </ul>
-          <button type="button" class="vote" data-v="bodensee" aria-pressed="false">Interessiert mich</button>
         </div>
         <div class="card">
           <span class="status">21. bis 23. Mai</span>
           <h3>Bis Monza</h3>
           <p class="muted">Über die Alpen mit Bergwertung bis nach Monza zum Giro-Zeitfahren. Danach geht’s für dich auf eigene Faust heim.</p>
-          <button type="button" class="vote" data-v="monza" aria-pressed="false">Interessiert mich</button>
         </div>
         <div class="card hl">
           <span class="status">21. bis 29. Mai</span>
           <h3>Die ganze Runde</h3>
           <p class="muted">Bis Monza, dann Königsetappe am Mortirolo und mit dem Rad über Bozen, Brenner und Innsbruck zurück. Kein Bus, ab Monza entspannte Etappen.</p>
-          <button type="button" class="vote" data-v="ganz" aria-pressed="false">Interessiert mich</button>
         </div>
       </div>
     </div>
@@ -221,57 +218,16 @@ footer a { color: var(--muted); }
     <div class="wrap">
       <div class="head">
         <div class="label">Unverbindlich</div>
-        <h2>Interessenliste</h2>
-        <p class="muted">Wähl oben bei den Varianten oder hier unten aus, was dich interessiert, gern auch mehrere. Trag dich ein, wenn du grundsätzlich Bock hast. Das ist noch keine Anmeldung und kostet nichts. Sobald klar ist, wie viele mitfahren, melde ich mich per WhatsApp oder E-Mail mit Ablauf und Kosten.</p>
+        <h2>WhatsApp-Gruppe</h2>
+        <p class="muted">Wenn du grundsätzlich Bock hast, komm in die Gruppe. Das ist noch keine Anmeldung und kostet nichts. Dort klären wir, wer welche Variante fährt, und du bekommst Ablauf und Kosten als Erstes.</p>
       </div>
-      <div class="thanks" id="thanks" hidden><strong>Danke, du stehst auf der Liste!</strong> <span class="muted">Ich melde mich, sobald es Neuigkeiten gibt.</span></div>
-      <form name="community-ride" method="POST" action="community-ride.html?danke=1#anmelden" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="community-ride">
-        <p class="hp"><label>Nicht ausfüllen <input name="bot-field"></label></p>
-        <div class="row2">
-          <label>Vorname <input type="text" name="vorname" autocomplete="given-name" required></label>
-          <label>Nachname <input type="text" name="nachname" autocomplete="family-name" required></label>
-        </div>
-        <label>Handynummer <input type="tel" name="telefon" autocomplete="tel" placeholder="+49 …" required></label>
-        <label>E-Mail <input type="email" name="email" autocomplete="email" required></label>
-        <label>Instagram (optional) <input type="text" name="instagram" placeholder="@"></label>
-        <fieldset class="pick" id="pick">
-          <legend>Was würde dich interessieren? <span class="muted small">Mehrere möglich</span></legend>
-          <label class="opt"><input type="checkbox" name="variante_bodensee" value="ja" data-v="bodensee"><span><b>Bodensee-Tag</b><small>Fr, 21. Mai · offen und kostenlos</small></span></label>
-          <label class="opt"><input type="checkbox" name="variante_monza" value="ja" data-v="monza"><span><b>Bis Monza</b><small>21. bis 23. Mai · Giro-Zeitfahren</small></span></label>
-          <label class="opt"><input type="checkbox" name="variante_ganze_runde" value="ja" data-v="ganz"><span><b>Die ganze Runde</b><small>21. bis 29. Mai · mit dem Rad zurück</small></span></label>
-          <p class="err small" id="pickErr" hidden>Bitte wähl mindestens eine Variante aus.</p>
-        </fieldset>
-        <label>Noch was? (optional) <textarea name="nachricht" placeholder="z. B. längste Ausfahrt bisher, Fragen"></textarea></label>
-        <label class="check"><input type="checkbox" name="datenschutz" required> <span>Ich bin einverstanden, dass meine Angaben zur Organisation des Community Rides gespeichert werden. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
-        <div><button class="btn" type="submit">Eintragen</button></div>
-      </form>
+      <p><a class="btn" href="https://chat.whatsapp.com/K27oGeeaAZXHlJTvbcMQlq" target="_blank" rel="noopener">WhatsApp-Gruppe beitreten</a></p>
+      <p class="muted small" style="margin-top:14px">In der Gruppe sehen die anderen Mitglieder deine Handynummer.</p>
     </div>
   </section>
 </main>
 
 <footer><div class="wrap"><span>© 2026 Max Reischl · Moving Max</span><span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span></div></footer>
 
-<script>
-(function () {
-  if (/[?&]danke=1/.test(location.search)) document.getElementById("thanks").hidden = false;
-  var boxes = document.querySelectorAll('#pick input[type=checkbox]');
-  var btns = document.querySelectorAll('.vote');
-  function box(v) { return document.querySelector('#pick input[data-v="' + v + '"]'); }
-  function sync() {
-    btns.forEach(function (b) { var on = box(b.dataset.v).checked; b.setAttribute("aria-pressed", on); b.textContent = on ? "Ausgewählt" : "Interessiert mich"; });
-    var any = Array.prototype.some.call(boxes, function (c) { return c.checked; });
-    if (any) document.getElementById("pickErr").hidden = true;
-  }
-  btns.forEach(function (b) { b.addEventListener("click", function () { var c = box(b.dataset.v); c.checked = !c.checked; sync(); }); });
-  boxes.forEach(function (c) { c.addEventListener("change", sync); });
-  document.querySelector('form[name="community-ride"]').addEventListener("submit", function (e) {
-    if (!Array.prototype.some.call(boxes, function (c) { return c.checked; })) {
-      e.preventDefault(); var err = document.getElementById("pickErr"); err.hidden = false; document.getElementById("pick").scrollIntoView({ block: "center" });
-    }
-  });
-  sync();
-})();
-</script>
 </body>
 </html>
