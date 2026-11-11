@@ -870,6 +870,23 @@ footer a { color: var(--muted); }
   set(false);
 })();
 </script>
+<script>
+// Verstecktes Spiel: 7-mal schnell hintereinander aufs Logo tippen
+(function () {
+  var logo = document.querySelector(".logo"), n = 0, last = 0, timer;
+  if (!logo) return;
+  logo.addEventListener("click", function (e) {
+    var now = Date.now(); n = now - last < 700 ? n + 1 : 1; last = now;
+    if (n >= 2) e.preventDefault();
+    if (n >= 4) {
+      logo.style.display = "inline-block"; logo.style.transition = "transform .12s";
+      logo.style.transform = "scale(" + (1 + (n - 3) * .06) + ") rotate(" + (n % 2 ? -3 : 3) + "deg)";
+      clearTimeout(timer); timer = setTimeout(function () { logo.style.transform = ""; }, 700);
+    }
+    if (n >= 7) { n = 0; location.href = "../spiel.html?lang=en"; }
+  });
+})();
+</script>
 <script>window.echarts = { registerMap: function (name, geo) { if (window.__drawLand) window.__drawLand(geo); } };</script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js" async></script>
 </body>
