@@ -70,12 +70,26 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
 .rules canvas { width: 96px; height: 44px; background: rgba(255,255,255,.05); border-radius: 6px; }
 .btn { display: block; width: 100%; padding: 15px 18px; border-radius: 6px; border: 1px solid var(--accent-strong); background: var(--accent-strong); color: #fff; font-weight: 600; font-size: 1.05rem; cursor: pointer; text-decoration: none; text-align: center; }
 .btn.ghost { background: transparent; border-color: var(--line); color: var(--text); }
+.btn[disabled] { opacity: .55; cursor: default; }
 .btn:hover { filter: brightness(1.1); }
 .btns { display: grid; gap: 10px; }
 .score { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 17vw, 4.6rem); line-height: .9; font-variant-numeric: tabular-nums; }
 .score small { font-size: .38em; letter-spacing: .08em; margin-left: 6px; color: var(--muted); }
 .best { font-family: var(--font-display); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .9rem; color: var(--accent); }
 .tiny { font-size: .85rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+#bForm { display: grid; gap: 10px; }
+#bForm[hidden] { display: none; }
+#bName { width: 100%; padding: 14px 14px; border-radius: 6px; border: 1px solid var(--line); background: #121019; color: var(--text); font: inherit; font-size: 1.05rem; text-align: center; -webkit-user-select: text; user-select: text; }
+#bName:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.rank { list-style: none; margin: 0; padding: 0; display: grid; text-align: left; max-height: 38vh; overflow-y: auto; border-top: 1px solid var(--line); }
+.rank li { display: grid; grid-template-columns: 2.2em 1fr auto; gap: 8px; align-items: baseline; padding: 8px 4px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.rank li b { font-family: var(--font-display); font-weight: 800; color: var(--muted); }
+.rank li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank li i { font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
+.rank li.me { background: rgba(163,91,255,.16); }
+.rank li.me b, .rank li.me i { color: var(--accent); }
+.rank li:nth-child(1) b { color: var(--energy); }
 .tiny a { color: var(--muted); }
 @media (max-height: 640px) { .card { padding: 18px 18px 16px; gap: 11px; } .rules { gap: 7px; } .rules canvas { height: 38px; } }
 @media (prefers-reduced-motion: reduce) { .toast.show { animation-duration: 2.2s; } }
@@ -111,6 +125,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     </ul>
     <div class="btns">
       <button class="btn" id="btnStart" type="button"></button>
+      <button class="btn ghost" id="btnBoard1" type="button"></button>
       <a class="btn ghost" id="btnHome1" href="./"></a>
     </div>
     <p class="tiny"><a id="langLink" href="#"></a></p>
@@ -126,9 +141,27 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     <p id="oText"></p>
     <div class="btns">
       <button class="btn" id="btnAgain" type="button"></button>
+      <button class="btn ghost" id="btnBoard2" type="button"></button>
       <button class="btn ghost" id="btnShare" type="button"></button>
       <a class="btn ghost" id="btnHome2" href="./"></a>
     </div>
+  </div>
+</div>
+
+<div class="overlay" id="board" hidden>
+  <div class="card">
+    <div class="label" id="bLabel"></div>
+    <h1 id="bTitle"></h1>
+    <form id="bForm" hidden novalidate>
+      <label class="sr" for="bName" id="bNameLbl"></label>
+      <input id="bName" name="name" type="text" maxlength="16" autocomplete="nickname" enterkeyhint="done">
+      <button class="btn" id="bSubmit" type="submit"></button>
+      <p class="tiny" id="bNote"></p>
+    </form>
+    <p id="bMsg" hidden></p>
+    <ol class="rank" id="bList"></ol>
+    <div class="best" id="bRank"></div>
+    <div class="btns"><button class="btn ghost" id="bClose" type="button"></button></div>
   </div>
 </div>
 
@@ -160,7 +193,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     overText: "You made it to <strong>{stage}</strong>. Max is riding the full 33,000 km.",
     best: "Your record: {km} km", newBest: "New record!",
     again: "Ride again", share: "Share result", copied: "Copied!", shareText: "I made it {km} km in “Once around Europe”. Can you beat that?",
-    paused: "Paused", resume: "Keep riding", rested: "Well rested!", ouch: "Ouch!", locale: "en-US"
+    paused: "Paused", resume: "Keep riding", rested: "Well rested!", ouch: "Ouch!", locale: "en-US",
+    kong: "Kong Strong downed!", board: "Leaderboard", boardSub: "Top 20", yourName: "Your name", enter: "Add my {km} km", entered: "You are in!", rank: "Your rank: {r} of {n}", noBoard: "The leaderboard is not reachable right now.", empty: "Nobody here yet. Be the first!", close: "Close", badName: "Please pick a name with 2 to 16 characters.", nameNote: "Your name and kilometres are shown publicly."
   } : {
     label: "Verstecktes Spiel", title: "Einmal um <em>Europa</em>", sub: "33.000 km. Wie weit kommst du?",
     r1: "Wisch oder tipp links und rechts, um die Spur zu wechseln.", r2: "Weich Schlaglöchern, Absperrungen und LKWs aus.",
@@ -172,7 +206,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     overText: "Du bist bis <strong>{stage}</strong> gekommen. Max fährt die ganzen 33.000 km.",
     best: "Dein Rekord: {km} km", newBest: "Neuer Rekord!",
     again: "Nochmal fahren", share: "Ergebnis teilen", copied: "Kopiert!", shareText: "Ich bin bei „Einmal um Europa“ {km} km weit gekommen. Schaffst du mehr?",
-    paused: "Pause", resume: "Weiterfahren", rested: "Ausgeschlafen!", ouch: "Autsch!", locale: "de-DE"
+    paused: "Pause", resume: "Weiterfahren", rested: "Ausgeschlafen!", ouch: "Autsch!", locale: "de-DE",
+    kong: "Kong Strong getrunken!", board: "Rangliste", boardSub: "Top 20", yourName: "Dein Name", enter: "Mit {km} km eintragen", entered: "Du bist drin!", rank: "Dein Platz: {r} von {n}", noBoard: "Die Rangliste ist gerade nicht erreichbar.", empty: "Noch niemand da. Sei der Erste!", close: "Schließen", badName: "Bitte einen Namen mit 2 bis 16 Zeichen wählen.", nameNote: "Dein Name und deine Kilometer sind öffentlich sichtbar."
   };
   var $ = function (id) { return document.getElementById(id); };
   function fmt(n) { return Math.round(n).toLocaleString(T.locale); }
@@ -187,7 +222,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   document.title = (EN ? "Once around Europe" : "Einmal um Europa") + " – Moving Max";
 
   // ---------- Etappen ----------
-  var TOTAL = 33000, KMU = 3.5, D = 7, ZS = 130;
+  var TOTAL = 33000, KMU = 1.8, D = 7, ZS = 130;
   var STAGES = [
     { km: 0,     de: "Nordsee",              en: "North Sea",           sky: ["#4c9fe0", "#cfe8f7"], ground: "#6fae5c", sil: "flat",   silc: "#4f8f58", sa: .02,  deco: ["tree", "windmill", "tree", "house", "tree", "hay"], cl: .9, sun: [.78, .32, .05, "#fff6c9"] },
     { km: 1800,  de: "Skandinavien",         en: "Scandinavia",         sky: ["#3a78c0", "#bcdcf0"], ground: "#4f9460", sil: "fjord",  silc: "#3d5f7a", sa: .17,  deco: ["pine", "pine", "rock", "redhouse"], sea: "#2f6f9f", cl: .7, sun: [.2, .3, .045, "#fff6c9"] },
@@ -473,12 +508,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   // ---------- Spielzustand ----------
   var state = "menu", time = 0, dist = 0, km = 0, v = 22, lane = 0, riderX = 0, energy = 100, awake = 100, inv = 0, shake = 0, flash = 0;
   var ents = [], decos = [], pops = [], parts = [], nextRow = 60, nextDeco = 0, rowId = 0, lastFree = 1, sinceTent = 0, signIdx = 1, finishPlaced = false, globePlaced = false;
-  var sleepT = 0, dieT = 0, dieWhy = "", curStage = STAGES[0], best = 0, lastKmText = "", twoStreak = 0;
+  var playT = 0, lastScore = 0, lastSecs = 0, sent = false, sleepT = 0, dieT = 0, dieWhy = "", curStage = STAGES[0], best = 0, lastKmText = "", twoStreak = 0;
   try { best = parseInt(localStorage.getItem("mm_spiel_best"), 10) || 0; } catch (e) {}
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function reset() {
-    time = 0; dist = 0; km = 0; v = 26; lane = 0; riderX = 0; energy = 100; awake = 100; inv = 0; shake = 0; flash = 0;
+    time = 0; playT = 0; dist = 0; km = 0; v = 26; lane = 0; riderX = 0; energy = 100; awake = 100; inv = 0; shake = 0; flash = 0;
     ents = []; decos = []; pops = []; parts = []; nextRow = 70; nextDeco = 0; rowId = 0; lastFree = 1; sinceTent = 0; signIdx = 1; finishPlaced = false; globePlaced = false; twoStreak = 0;
     curStage = STAGES[0]; for (var z = 8; z < ZS; z += 6) addDeco(z);
   }
@@ -490,17 +525,17 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   }
   function spawnRow(z) {
     rowId++;
-    var d = clamp(km / 26000, 0, 1), early = dist < 420, lanes = [-1, 0, 1], blocked = [], r = Math.random();
+    var d = clamp(km / 13000, 0, 1), late = clamp((km - 13000) / 20000, 0, 1), early = dist < 420, lanes = [-1, 0, 1], blocked = [], r = Math.random();
     var wantTent = !early && ((awake < 40 && sinceTent > 12) || sinceTent > 55);
-    var p2 = early ? 0 : .12 + .4 * d, p1 = early ? .55 : .5;
+    var p2 = early ? 0 : .14 + .38 * d + .12 * late, p1 = early ? .55 : .5 - .06 * late;
     var n = wantTent ? (r < .4 ? 1 : 0) : r < p2 ? 2 : r < p2 + p1 ? 1 : 0;
     if (n === 2 && twoStreak >= 2) n = 1;
     if (n === 2) { var free = clamp(lastFree + (Math.random() < .5 ? -1 : 1) * (Math.random() < .7 ? 1 : 0), -1, 1); if (twoStreak === 0) free = lanes[Math.floor(Math.random() * 3)]; blocked = lanes.filter(function (l) { return l !== free; }); lastFree = free; twoStreak++; }
     else { twoStreak = 0; if (n === 1) blocked = [lanes[Math.floor(Math.random() * 3)]]; }
-    blocked.forEach(function (l) { var q = Math.random(), type = early ? "pot" : q < .5 ? "pot" : q < .82 - .1 * d ? "barrier" : "truck"; ents.push({ z: z, wx: l, type: type, row: rowId, v: Math.random() }); });
+    blocked.forEach(function (l) { var q = Math.random(), type = early ? "pot" : q < .5 - .1 * late ? "pot" : q < .82 - .1 * d - .08 * late ? "barrier" : "truck"; ents.push({ z: z, wx: l, type: type, row: rowId, v: Math.random() }); });
     var freeL = lanes.filter(function (l) { return blocked.indexOf(l) < 0; }), pick = freeL[Math.floor(Math.random() * freeL.length)];
     if (wantTent) { ents.push({ z: z, wx: pick, type: "tent", row: rowId, v: 0 }); sinceTent = 0; return; }
-    var q2 = Math.random(), pf = early ? .5 : .3 - .11 * d, pc = early ? 0 : .04;
+    var q2 = Math.random(), pf = early ? .5 : .31 - .08 * d - .03 * late, pc = early ? 0 : .04;
     if (q2 < pc) ents.push({ z: z, wx: pick, type: "can", row: rowId, v: 0 });
     else if (q2 < pc + pf) ents.push({ z: z, wx: pick, type: Math.random() < .62 ? "bear" : "bottle", row: rowId, v: Math.random() });
   }
@@ -514,7 +549,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (!rows) return;
     var endD = TOTAL / KMU;
     if (!finishPlaced && dist + ZS >= endD) { ents.push({ z: endD - dist, wx: 0, type: "finish", row: -1, v: 0 }); finishPlaced = true; }
-    while (dist + ZS >= nextRow) { if (nextRow < endD - 12) spawnRow(nextRow - dist); nextRow += Math.max(12.5, v * .46) * (.9 + Math.random() * .4); }
+    while (dist + ZS >= nextRow) { if (nextRow < endD - 12) spawnRow(nextRow - dist); nextRow += Math.max(12.5, v * (.46 - .05 * clamp((km - 13000) / 20000, 0, 1))) * (.9 + Math.random() * .4); }
   }
   function pop(text, col, wx) { pops.push({ text: text, col: col, x: X(wx, 1), y: base - U * 1.5, t: 0 }); }
   function burst(col, wx, n) { if (reduce) return; for (var i = 0; i < n; i++) parts.push({ x: X(wx, 1), y: base - U * .7, vx: (Math.random() - .5) * 260, vy: -80 - Math.random() * 240, t: 0, col: col, r: 2.5 + Math.random() * 3.5 }); }
@@ -529,14 +564,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (state === "sleep") { sleepT -= dt; if (sleepT <= 0) { state = "play"; inv = 1.2; } return; }
     if (state === "dying") { dieT -= dt; v *= Math.pow(.04, dt); advance(v * dt, false); riderX += (lane - riderX) * Math.min(1, dt * 16); if (dieT <= 0) endGame(false); return; }
     if (state !== "play") return;
-    var d = clamp(km / 26000, 0, 1), vT = 28 + 34 * clamp(km / 28000, 0, 1);
+    var d = clamp(km / 13000, 0, 1), late = clamp((km - 13000) / 20000, 0, 1), vT = 29 + 27 * clamp(km / 14000, 0, 1) + 14 * late; playT += dt;
     v += (vT - v) * Math.min(1, dt * 1.1);
     advance(v * dt, true);
     km = Math.min(TOTAL, dist * KMU);
-    energy -= (4.2 + 2.7 * d) * dt; awake -= (2.4 + 1 * d) * dt; sinceTent += dt; inv = Math.max(0, inv - dt);
+    energy -= (4.3 + 2 * d + .9 * late) * dt; awake -= (2.4 + 1 * d + .5 * late) * dt; sinceTent += dt; inv = Math.max(0, inv - dt);
     riderX += (lane - riderX) * Math.min(1, dt * 16);
     var st = stageAt(km);
-    if (st !== curStage) { curStage = st; toast("<small>" + T.stage + " " + (st.i + 1) + "</small>" + st.name); snd("stage"); }
+    if (st !== curStage) { curStage = st; toast("<small>" + T.stage + " " + (st.i + 1) + "</small>" + st.name); snd("stage"); musicStage(st.i); }
     for (i = ents.length - 1; i >= 0; i--) {
       e = ents[i]; if (e.done || e.type === "finish") continue;
       var dx = Math.abs(e.wx - riderX);
@@ -546,17 +581,17 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
         ents.splice(i, 1);
         if (e.type === "bear") { energy = Math.min(100, energy + 14); burst(BEARS[Math.floor(e.v * 4) % 4], riderX, 9); snd("eat"); }
         else if (e.type === "bottle") { energy = Math.min(100, energy + 10); burst("#a35bff", riderX, 9); snd("eat"); }
-        else if (e.type === "can") { awake = Math.min(100, awake + 24); burst("#ffd23f", riderX, 12); snd("can"); pop("+" + T.awake, "#6fd3ff", riderX); }
+        else if (e.type === "can") { awake = Math.min(100, awake + 24); burst("#ffd23f", riderX, 12); snd("can"); pop(T.kong, "#ffd23f", riderX); }
         else if (e.type === "tent") { awake = 100; energy = Math.min(100, energy + 15); state = "sleep"; sleepT = reduce ? .5 : 1; snd("tent"); }
       }
     }
     if (km >= TOTAL) { endGame(true); return; }
     if (energy <= 0) { energy = 0; die("energy"); } else if (awake <= 0) { awake = 0; die("awake"); }
   }
-  function die(why) { state = "dying"; dieWhy = why; dieT = 1; snd("over"); }
+  function die(why) { state = "dying"; dieWhy = why; dieT = 1; musicStop(); snd("over"); }
   function endGame(won) {
-    state = won ? "win" : "over";
-    var score = Math.round(km), isBest = score > best;
+    state = won ? "win" : "over"; musicStop();
+    var score = Math.round(km), isBest = score > best; lastScore = score; lastSecs = playT; sent = false;
     if (isBest) { best = score; try { localStorage.setItem("mm_spiel_best", String(best)); } catch (e) {} }
     $("oLabel").textContent = won ? T.winSub : dieWhy === "energy" ? T.bonkSub : T.sleepSub;
     $("oTitle").innerHTML = won ? T.win : dieWhy === "energy" ? T.bonk : T.sleep;
@@ -567,9 +602,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     $("hud").hidden = true; $("over").hidden = false; $("btnAgain").focus();
     if (won) { snd("win"); for (var i = 0; i < 60; i++) parts.push({ x: Math.random() * W, y: -10, vx: (Math.random() - .5) * 120, vy: Math.random() * 200, t: -Math.random() * 1.5, col: ["#a35bff", "#ffd23f", "#6fd3ff", "#fff"][i % 4], r: 4 + Math.random() * 4 }); }
   }
-  function start() { ensureAudio(); reset(); state = "play"; $("menu").hidden = true; $("over").hidden = true; $("pause").hidden = true; $("hud").hidden = false; $("stageName").textContent = curStage.name; toast("<small>" + T.stage + " 1</small>" + curStage.name); }
-  function pause() { if (state !== "play" && state !== "sleep") return; pausedFrom = state; state = "pause"; $("pause").hidden = false; $("btnResume").focus(); }
-  function resume() { if (state !== "pause") return; state = pausedFrom; $("pause").hidden = true; last = 0; }
+  function start() { ensureAudio(); reset(); musicStart(0); state = "play"; $("board").hidden = true; $("menu").hidden = true; $("over").hidden = true; $("pause").hidden = true; $("hud").hidden = false; $("stageName").textContent = curStage.name; toast("<small>" + T.stage + " 1</small>" + curStage.name); }
+  function pause() { if (state !== "play" && state !== "sleep") return; pausedFrom = state; state = "pause"; $("pause").hidden = false; $("btnResume").focus(); if (ac) ac.suspend(); }
+  function resume() { if (state !== "pause") return; state = pausedFrom; $("pause").hidden = true; last = 0; if (ac) ac.resume(); }
   var pausedFrom = "play";
   function toast(html) { var t = $("toast"); t.innerHTML = html; t.classList.remove("show"); void t.offsetWidth; t.classList.add("show"); }
 
@@ -647,7 +682,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") { move(-1); e.preventDefault(); }
     else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") { move(1); e.preventDefault(); }
     else if (e.key === "Escape" || e.key === "p" || e.key === "P") { if (state === "pause") resume(); else pause(); }
-    else if ((e.key === " " || e.key === "Enter") && e.target.tagName !== "BUTTON" && e.target.tagName !== "A") { if (state === "menu" || state === "over" || state === "win") start(); else if (state === "pause") resume(); e.preventDefault(); }
+    else if ((e.key === " " || e.key === "Enter") && e.target.tagName !== "BUTTON" && e.target.tagName !== "A" && e.target.tagName !== "INPUT" && $("board").hidden) { if (state === "menu" || state === "over" || state === "win") start(); else if (state === "pause") resume(); e.preventDefault(); }
   });
   $("btnStart").addEventListener("click", start); $("btnAgain").addEventListener("click", start);
   $("btnPause").addEventListener("click", pause); $("btnResume").addEventListener("click", resume);
@@ -668,6 +703,80 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(vol, t0 + .01); g.gain.exponentialRampToValueAtTime(.001, t0 + dur);
     o.connect(g); g.connect(ac.destination); o.start(t0); o.stop(t0 + dur + .02);
   }
+
+  // ---------- Musik: wird im Browser erzeugt, je Etappe eigene Tonleiter, Tempo und Rhythmus ----------
+  var MAJ = [0, 2, 4, 5, 7, 9, 11], MIN = [0, 2, 3, 5, 7, 8, 10], DOR = [0, 2, 3, 5, 7, 9, 10], HMIN = [0, 2, 3, 5, 7, 8, 11], HIJ = [0, 1, 4, 5, 7, 8, 10], PHR = [0, 1, 3, 5, 7, 8, 10], LYD = [0, 2, 4, 6, 7, 9, 11];
+  var STY = [
+    /* Nordsee */        { bpm: 112, div: 4, root: 48, sc: MAJ,  prog: [0, 3, 4, 0], lead: ["triangle", .07, .22, .5],  bass: "x...5...x...5.x.", kick: "x.......x.......", hat: "..x...x...x...x.", snr: "....x.......x..." },
+    /* Skandinavien */   { bpm: 80,  div: 4, root: 50, sc: MIN,  prog: [0, 0, 5, 6], lead: ["sawtooth", .05, .7, .28, 700], bass: "x.......x.......", tom: "x..x..x.x..x..x.", drone: 1 },
+    /* Nordkap */        { bpm: 66,  div: 4, root: 53, sc: LYD,  prog: [0, 1, 0, 4], lead: ["sine", .08, 1.2, .22],     bass: "x...............", hat: "........x.......", drone: 1 },
+    /* Finnland */       { bpm: 122, div: 4, root: 52, sc: MIN,  prog: [0, 3, 4, 0], lead: ["triangle", .07, .18, .55], bass: "x.5.x.5.x.5.x.5.", kick: "x...x...x...x...", hat: "..x...x...x...x." },
+    /* Osteuropa */      { bpm: 128, div: 4, root: 50, sc: HMIN, prog: [0, 3, 4, 0], lead: ["square", .035, .16, .6],   bass: "x.5.x.5.x.5.x.5.", kick: "x.......x.......", snr: "....x.......x...", hat: "..x...x...x...x." },
+    /* Schwarzes Meer */ { bpm: 100, div: 4, root: 52, sc: HIJ,  prog: [0, 1, 0, 6], lead: ["sawtooth", .045, .3, .45, 1100], bass: "x..x..x.x..x..x.", kick: "x..x..x.........", hat: "..x..x..x.x..x.x" },
+    /* Istanbul */       { bpm: 104, div: 4, root: 50, sc: HIJ,  prog: [0, 0, 1, 0], lead: ["sawtooth", .05, .26, .62, 1400, 1], bass: "x.....x...x.....", kick: "x.....x...x.....", tek: "..x.x...x...x.x.", drone: 1 },
+    /* Griechenland */   { bpm: 118, div: 4, root: 52, sc: MAJ,  prog: [0, 3, 4, 0], lead: ["triangle", .065, .1, .6, 0, 0, 1], bass: "x...5...x...5...", hat: "x.x.x.x.x.x.x.x.", kick: "x.......x......." },
+    /* Italien */        { bpm: 138, div: 3, root: 57, sc: MIN,  prog: [0, 0, 4, 0], lead: ["triangle", .065, .12, .8], bass: "x..5..x..5..", tek: "x.xx.xx.xx.x", kick: "x.....x....." },
+    /* Côte d’Azur */    { bpm: 92,  div: 3, root: 50, sc: DOR,  prog: [0, 3, 6, 0], lead: ["sine", .08, .5, .34],      bass: "x.....5.....", hat: "..x..x..x..x" },
+    /* Spanien */        { bpm: 116, div: 4, root: 52, sc: PHR,  prog: [3, 2, 1, 0], lead: ["triangle", .07, .14, .6],  bass: "x.....x...x.....", snr: "x..x..x...x.x...", kick: "x.........x....." },
+    /* Portugal */       { bpm: 96,  div: 4, root: 50, sc: MIN,  prog: [0, 3, 4, 0], lead: ["triangle", .07, .3, .45],  bass: "x...5...x...5...", hat: "..x...x...x...x." },
+    /* Heimweg */        { bpm: 126, div: 4, root: 48, sc: MAJ,  prog: [0, 4, 5, 3], lead: ["triangle", .075, .2, .65], bass: "x.x.5.x.x.x.5.x.", kick: "x...x...x...x...", snr: "....x.......x...", hat: "..x...x...x...x." }
+  ];
+  var mus = { on: false, sty: null, pend: null, next: 0, step: 0, bar: 0, out: null, prev: 0, nz: null, timer: null };
+  function mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function deg(st, d) { var n = st.sc.length, o = Math.floor(d / n); return st.root + st.sc[((d % n) + n) % n] + 12 * o; }
+  function mNote(f, t, dur, type, vol, cut, slide) {
+    var o = ac.createOscillator(), g = ac.createGain(), end = g; o.type = type;
+    if (slide) { o.frequency.setValueAtTime(f * .944, t); o.frequency.exponentialRampToValueAtTime(f, t + .06); } else o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .012); g.gain.exponentialRampToValueAtTime(.0008, t + dur);
+    if (cut) { var fl = ac.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.value = cut; o.connect(fl); fl.connect(g); } else o.connect(g);
+    end.connect(mus.out); o.start(t); o.stop(t + dur + .03);
+  }
+  function mDrum(t, f0, f1, dur, vol) { var o = ac.createOscillator(), g = ac.createGain(); o.type = "sine"; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + dur); o.connect(g); g.connect(mus.out); o.start(t); o.stop(t + dur + .02); }
+  function mNoise(t, dur, vol, hp) {
+    if (!mus.nz) { mus.nz = ac.createBuffer(1, ac.sampleRate * .4, ac.sampleRate); var d = mus.nz.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+    var src = ac.createBufferSource(), g = ac.createGain(), f = ac.createBiquadFilter(); src.buffer = mus.nz; f.type = "highpass"; f.frequency.value = hp;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + dur); src.connect(f); f.connect(g); g.connect(mus.out); src.start(t); src.stop(t + dur + .02);
+  }
+  function mStep(st, idx, step, bar, t) {
+    var len = st.div * 4, sd = 60 / st.bpm / st.div, chord = st.prog[bar % st.prog.length], on = function (p) { return p && p.charAt(step) !== "."; };
+    if (st.bass) { var b = st.bass.charAt(step); if (b !== ".") mNote(mtof(deg(st, chord + (b === "5" ? 4 : 0)) - 0) / 2, t, sd * 2.4, "triangle", .11); }
+    if (on(st.kick)) mDrum(t, 130, 45, .16, .22);
+    if (on(st.tom)) mDrum(t, step % 8 === 0 ? 95 : 120, 55, .34, .3);
+    if (on(st.snr)) mNoise(t, .09, .07, 1800);
+    if (on(st.hat)) mNoise(t, .035, .035, 7000);
+    if (on(st.tek)) mNoise(t, .05, .06, 3500);
+    if (st.drone && step === 0) { mNote(mtof(st.root) / 2, t, sd * len * 1.05, "sawtooth", .035, 320); mNote(mtof(st.root + 7) / 2, t, sd * len * 1.05, "sawtooth", .022, 420); }
+    // Melodie: Motiv in der Form A A B A, auf den Zählzeiten Akkordtöne, dazwischen Schritte
+    var L = st.lead, motif = [0, 0, 1, 0][bar % 4], seed = idx * 97 + motif * 31 + step * 7 + (bar % 4 === 3 && step >= len / 2 ? 500 : 0);
+    var beat = step % st.div === 0, r = hash(seed), r2 = hash(seed + 3.3);
+    if (step === 0) mus.prev = [0, 2, 4][Math.floor(hash(idx * 13 + motif) * 3)];
+    if (beat ? r < L[3] + .3 : r < L[3] * .62) {
+      var dgr = beat ? [0, 2, 4, 2, 4, 7][Math.floor(r2 * 6)] : mus.prev + (r2 < .5 ? -1 : 1);
+      dgr = clamp(dgr, -2, 9); mus.prev = dgr;
+      var f = mtof(deg(st, chord + dgr) + 12);
+      mNote(f, t, L[2] * (beat ? 1.3 : 1), L[0], L[1], L[4] || 0, L[5]);
+      if (L[6]) mNote(f, t + sd / 2, L[2], L[0], L[1] * .7, 0, 0);
+    }
+  }
+  function mTick() {
+    if (!ac || !mus.on || ac.state !== "running") return;
+    if (mus.next < ac.currentTime) mus.next = ac.currentTime + .05;
+    while (mus.next < ac.currentTime + .28) {
+      var st = mus.sty, len = st.div * 4;
+      mStep(st, STY.indexOf(st), mus.step, mus.bar, mus.next);
+      mus.next += 60 / st.bpm / st.div; mus.step++;
+      if (mus.step >= len) { mus.step = 0; mus.bar++; if (mus.pend) { mus.sty = mus.pend; mus.pend = null; mus.bar = 0; } }
+    }
+  }
+  function musicStart(i) {
+    if (!ac || muted) return;
+    if (!mus.out) { mus.out = ac.createGain(); mus.out.connect(ac.destination); }
+    mus.out.gain.cancelScheduledValues(ac.currentTime); mus.out.gain.setValueAtTime(.9, ac.currentTime);
+    mus.sty = STY[i] || STY[0]; mus.pend = null; mus.step = 0; mus.bar = 0; mus.next = ac.currentTime + .08; mus.on = true;
+    if (!mus.timer) mus.timer = setInterval(mTick, 70);
+  }
+  function musicStage(i) { if (mus.on && STY[i]) mus.pend = STY[i]; }
+  function musicStop() { if (!ac || !mus.on) return; mus.on = false; mus.out.gain.cancelScheduledValues(ac.currentTime); mus.out.gain.setValueAtTime(mus.out.gain.value, ac.currentTime); mus.out.gain.linearRampToValueAtTime(0, ac.currentTime + .4); }
   function snd(k) {
     if (k === "move") tone(300, 360, .05, "triangle", .04);
     else if (k === "eat") { tone(620, 880, .09, "triangle", .12); tone(880, 1180, .1, "triangle", .1, .07); }
@@ -679,8 +788,51 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     else if (k === "win") { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, f, .22, "triangle", .12, i * .13); }); }
   }
   function soundIcon() { $("wave").setAttribute("d", muted ? "M17 9l5 6M22 9l-5 6" : "M17 9a4 4 0 0 1 0 6"); }
-  $("btnSound").addEventListener("click", function () { muted = !muted; try { localStorage.setItem("mm_spiel_mute", muted ? "1" : "0"); } catch (e) {} if (!muted) ensureAudio(); soundIcon(); });
+  $("btnSound").addEventListener("click", function () { muted = !muted; try { localStorage.setItem("mm_spiel_mute", muted ? "1" : "0"); } catch (e) {} if (!muted) { ensureAudio(); if (state === "play" || state === "sleep") musicStart(curStage.i); } else musicStop(); soundIcon(); });
   soundIcon();
+
+  // ---------- Rangliste ----------
+  var API = "/api/spiel-rangliste", myId = "", myName = "";
+  try { myId = localStorage.getItem("mm_spiel_id") || ""; myName = localStorage.getItem("mm_spiel_name") || ""; } catch (e) {}
+  function uuid() { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); return "xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx".replace(/x/g, function () { return Math.floor(Math.random() * 16).toString(16); }); }
+  $("btnBoard1").textContent = T.board; $("btnBoard2").textContent = T.board; $("bLabel").textContent = T.boardSub; $("bTitle").textContent = T.board;
+  $("bClose").textContent = T.close; $("bNameLbl").textContent = T.yourName; $("bName").placeholder = T.yourName; $("bNote").textContent = T.nameNote;
+  function showBoard(data) {
+    var ol = $("bList"); ol.textContent = ""; $("bMsg").hidden = true;
+    if (!data) { $("bMsg").textContent = T.noBoard; $("bMsg").hidden = false; $("bRank").textContent = ""; return; }
+    if (!data.top.length) { $("bMsg").textContent = T.empty; $("bMsg").hidden = false; }
+    data.top.forEach(function (e, i) {
+      var li = document.createElement("li"), b = document.createElement("b"), n = document.createElement("span"), k = document.createElement("i");
+      b.textContent = (i + 1) + "."; n.textContent = e.name; k.textContent = fmt(e.km) + " km"; if (e.me) li.className = "me";
+      li.appendChild(b); li.appendChild(n); li.appendChild(k); ol.appendChild(li);
+    });
+    $("bRank").textContent = data.rank ? T.rank.replace("{r}", data.rank).replace("{n}", data.total) : "";
+  }
+  function api(method, body) {
+    var opt = { method: method, headers: { "Content-Type": "application/json" } }; if (body) opt.body = JSON.stringify(body);
+    return fetch(API + (method === "GET" && myId ? "?id=" + myId : ""), opt).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || "x"); return j; }); });
+  }
+  var boardFrom = null;
+  function openBoard() {
+    boardFrom = state === "menu" ? "menu" : "over"; $(boardFrom).hidden = true; $("board").hidden = false;
+    var can = boardFrom === "over" && lastScore > 0 && !sent;
+    $("bForm").hidden = !can; $("bSubmit").disabled = false; $("bSubmit").textContent = T.enter.replace("{km}", fmt(lastScore)); $("bName").value = myName;
+    $("bList").textContent = ""; $("bRank").textContent = ""; $("bMsg").hidden = true;
+    api("GET").then(showBoard, function () { showBoard(null); });
+    if (can && !myName) $("bName").focus(); else $("bClose").focus();
+  }
+  $("btnBoard1").addEventListener("click", openBoard); $("btnBoard2").addEventListener("click", openBoard);
+  $("bClose").addEventListener("click", function () { $("board").hidden = true; $(boardFrom || "menu").hidden = false; });
+  $("bForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = $("bName").value.replace(/\s+/g, " ").trim();
+    if (name.length < 2) { $("bMsg").textContent = T.badName; $("bMsg").hidden = false; $("bName").focus(); return; }
+    if (!myId) myId = uuid(); myName = name;
+    try { localStorage.setItem("mm_spiel_id", myId); localStorage.setItem("mm_spiel_name", myName); } catch (er) {}
+    $("bSubmit").disabled = true;
+    api("POST", { id: myId, name: name, km: lastScore, secs: Math.round(lastSecs) }).then(function (data) { sent = true; $("bForm").hidden = true; showBoard(data); $("bMsg").textContent = T.entered; $("bMsg").hidden = false; }, function (err) { $("bSubmit").disabled = false; $("bMsg").textContent = err.message === "name" ? T.badName : T.noBoard; $("bMsg").hidden = false; });
+  });
+  $("bName").addEventListener("keydown", function (e) { e.stopPropagation(); });
 
   // ---------- Start ----------
   reset(); state = "menu";
@@ -692,6 +844,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     window.__g = {
       get: function () { return { state: state, km: km, energy: energy, awake: awake, v: v, lane: lane, why: dieWhy, ents: ents.length, decos: decos.length }; },
       jump: function (k, e, a) { reset(); dist = k / KMU; km = k; nextRow = dist + 40; nextDeco = dist; decos = []; for (var z = 8; z < ZS; z += 6) addDeco(z); signIdx = STAGES.length; curStage = stageAt(k); if (e != null) energy = e; if (a != null) awake = a; state = 'play'; document.getElementById('menu').hidden = true; document.getElementById('over').hidden = true; document.getElementById('hud').hidden = false; },
+      mus: function (i) { ensureAudio(); musicStart(i); return !!ac && mus.on; },
       sim: function (skill, seconds) {
         reset(); state = "play"; var t = 0, react = 0, hits = 0, e0;
         while (state !== "over" && state !== "win" && t < (seconds || 600)) {
