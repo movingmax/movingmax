@@ -326,7 +326,7 @@ footer a { color: var(--muted); }
   <div class="band" aria-label="⟦Stand der Europaumrundung¦Progress of the Europe circumnavigation⟧">
     <div class="wrap">
       <div class="band-top">
-        <div><b class="num">⟦26.120 km¦26,120 km⟧</b><span>⟦von 33.000 km, Stand 9. November¦of 33,000 km, as of November 9⟧</span></div>
+        <div><b class="num" id="bandKm">⟦26.120 km¦26,120 km⟧</b><span id="bandAsOf">⟦von 33.000 km, Stand 9. November¦of 33,000 km, as of November 9⟧</span></div>
         <div class="day"><b class="num">⟦Tag¦Day⟧ <span id="bandDay" style="color:inherit;font-size:inherit">143</span></b><span>⟦unterwegs¦on the road⟧</span></div>
       </div>
       <div class="track" aria-hidden="true"><div class="track-done" id="trackDone" style="width:79.15%"></div><div class="track-rider" id="trackRider" style="left:79.15%"></div></div>
@@ -728,6 +728,15 @@ footer a { color: var(--muted); }
   }
   var cumNow = cum[nowIdx], cumEnd = cum[cum.length - 1];
   function kmAt(L) { return L <= cumNow ? NOW_KM * L / cumNow : NOW_KM + (TOTAL_KM - NOW_KM) * (L - cumNow) / (cumEnd - cumNow); }
+
+  // ---------- Kilometerstand von Strava: ersetzt den festen Wert, sobald Strava mehr meldet ----------
+  if (!/claude|anthropic|localhost|^$/.test(location.hostname) && window.fetch) fetch("/api/strava-km").then(function (r) { return r.json(); }).then(function (d) {
+    if (!d || !(d.km > NOW_KM) || d.km > TOTAL_KM) return;
+    NOW_KM = d.km; var share = 100 * NOW_KM / TOTAL_KM, loc = "⟦de-DE¦en-US⟧";
+    $("bandKm").textContent = NOW_KM.toLocaleString(loc) + " km";
+    $("bandAsOf").textContent = "⟦von 33.000 km, live von Strava¦of 33,000 km, live from Strava⟧";
+    $("trackDone").style.width = share + "%"; $("trackRider").style.left = share + "%";
+  }).catch(function () {});
 
   // ---------- Streckenband oben ----------
   (function () {
