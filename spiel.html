@@ -51,9 +51,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
 .bars { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 520px; width: 100%; margin: 0 auto; }
 .bar { display: grid; gap: 3px; }
 .bar label { font-family: var(--font-display); font-weight: 700; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; }
-.track { height: 12px; border-radius: 6px; background: rgba(18,16,25,.6); overflow: hidden; border: 1px solid rgba(255,255,255,.28); }
+.track { position: relative; height: 12px; border-radius: 6px; background: rgba(18,16,25,.6); overflow: hidden; border: 1px solid rgba(255,255,255,.28); }
 .fill { height: 100%; width: 100%; border-radius: 5px; transform-origin: left center; }
 #fillE { background: var(--energy); }
+.cap { position: absolute; right: 0; top: 0; bottom: 0; width: 0; background: repeating-linear-gradient(135deg, rgba(255,90,90,.85) 0 4px, rgba(18,16,25,.85) 4px 8px); }
 #fillA { background: var(--awake); }
 .bar.low .track { border-color: #ff5a5a; animation: low .5s steps(2) infinite; }
 .bar.low .fill { background: #ff5a5a !important; }
@@ -125,7 +126,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     <button class="hud-btn" id="btnSound" type="button" aria-label="Ton"><svg viewBox="0 0 24 24" id="icoSound"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9a4 4 0 0 1 0 6" id="wave"/></svg></button>
   </div>
   <div class="bars">
-    <div class="bar" id="barE"><label id="lblE">Energie</label><div class="track"><div class="fill" id="fillE"></div></div></div>
+    <div class="bar" id="barE"><label id="lblE">Energie</label><div class="track"><div class="fill" id="fillE"></div><i class="cap" id="capE"></i></div></div>
     <div class="bar" id="barA"><label id="lblA">Wach</label><div class="track"><div class="fill" id="fillA"></div></div></div>
   </div>
   <div class="route" aria-hidden="true"><i id="routeFill"></i></div>
@@ -219,11 +220,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   if (EN) document.documentElement.lang = "en";
   var T = EN ? {
     label: "Hidden game", title: "Once around <em>Europe</em>", sub: "33,000 km. How far can you get?",
-    r1: "Swipe or tap left and right to change lanes.", r2: "Dodge potholes, roadblocks and trucks.",
+    r1: "Swipe or tap left and right to change lanes.", r2: "Dodge potholes, cars and trucks. Crashing leaves you battered, the tent heals you.",
     r3: "Gummy bears and bottles refill your energy. The supermarket fills it up completely.", r4: "Energy drinks keep you awake. Sleep it off in the tent.",
     start: "Start riding", home: "Back to the website", lang: "Auf Deutsch spielen",
     energy: "Energy", awake: "Awake", stage: "Stage",
-    bonk: "You bonked!", bonkSub: "Out of energy", sleep: "Microsleep!", sleepSub: "Fell asleep on the bars",
+    bonk: "You bonked!", bonkSub: "Out of energy", crashT: "Tour abandoned!", crashSub: "Too many crashes", crash: "Crash!", hurtLbl: "battered", healed: "Healed!", hCrash: "Battered! Your energy is capped until you sleep in the tent", hChase: "Car from behind! Get out of its lane", honk: "HONK!", sleep: "Microsleep!", sleepSub: "Fell asleep on the bars",
     win: "You made it around <em>Europe</em>!", winSub: "Finish", winText: "33,000 km and back in Amsterdam. Respect.",
     overText: "You made it to <strong>{stage}</strong>. Max is riding the full 33,000 km.",
     best: "Your record: {km} km", newBest: "New record!",
@@ -234,11 +235,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     hGlass: "Broken glass means a flat tyre", hPuddle: "Puddles slow you down", hWind: "Watch out, crosswind!", hDeer: "Reindeer on the road!", hBear: "A bear!", hGravel: "Gravel makes you slow and tired", hCar: "Cars change lanes. Watch the indicator", hDog: "Street dogs!", hIce: "Black ice!", board: "Leaderboard", boardSub: "Top 20", yourName: "Your name", enter: "Add my {km} km", entered: "You are in!", rank: "Your rank: {r} of {n}", noBoard: "The leaderboard is not reachable right now.", empty: "Nobody here yet. Be the first!", close: "Close", badName: "Please pick a name with 2 to 16 characters.", nameNote: "Your name and kilometres are shown publicly."
   } : {
     label: "Verstecktes Spiel", title: "Einmal um <em>Europa</em>", sub: "33.000 km. Wie weit kommst du?",
-    r1: "Wisch oder tipp links und rechts, um die Spur zu wechseln.", r2: "Weich Schlaglöchern, Absperrungen und LKWs aus.",
+    r1: "Wisch oder tipp links und rechts, um die Spur zu wechseln.", r2: "Weich Schlaglöchern, Autos und LKWs aus. Stürze machen dich angeschlagen, im Zelt heilst du.",
     r3: "Gummibärchen und Flaschen füllen deine Energie. Der Supermarkt macht sie ganz voll.", r4: "Energy-Drinks halten dich wach. Im Zelt schläfst du dich aus.",
     start: "Losfahren", home: "Zurück zur Website", lang: "Play in English",
     energy: "Energie", awake: "Wach", stage: "Etappe",
-    bonk: "Hungerast!", bonkSub: "Energie leer", sleep: "Sekundenschlaf!", sleepSub: "Am Lenker eingeschlafen",
+    bonk: "Hungerast!", bonkSub: "Energie leer", crashT: "Tour abgebrochen!", crashSub: "Zu viele Stürze", crash: "Gestürzt!", hurtLbl: "angeschlagen", healed: "Geheilt!", hCrash: "Angeschlagen! Deine Energie ist begrenzt, bis du im Zelt schläfst", hChase: "Auto von hinten! Raus aus seiner Spur", honk: "HUUUP!", sleep: "Sekundenschlaf!", sleepSub: "Am Lenker eingeschlafen",
     win: "Du hast <em>Europa</em> umrundet!", winSub: "Ziel", winText: "33.000 km und zurück in Amsterdam. Respekt.",
     overText: "Du bist bis <strong>{stage}</strong> gekommen. Max fährt die ganzen 33.000 km.",
     best: "Dein Rekord: {km} km", newBest: "Neuer Rekord!",
@@ -639,14 +640,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   // ---------- Spielzustand ----------
   var state = "menu", time = 0, dist = 0, km = 0, v = 22, lane = 0, riderX = 0, energy = 100, awake = 100, inv = 0, shake = 0, flash = 0;
   var ents = [], decos = [], pops = [], parts = [], nextRow = 60, nextDeco = 0, rowId = 0, lastFree = 1, sinceTent = 0, signIdx = 1, finishPlaced = false, globePlaced = false;
-  var sinceShop = 0, gravelEnd = -999, gravelLanes = [], windT = 6, gust = null, gustFx = 0, pumps = 0, hinted = {}, wRain = 0, wSnow = 0, onGravel = false, crunchT = 0;
+  var hurt = 0, crashT = 0, chaseT = 14, sinceShop = 0, gravelEnd = -999, gravelLanes = [], windT = 6, gust = null, gustFx = 0, pumps = 0, hinted = {}, wRain = 0, wSnow = 0, onGravel = false, crunchT = 0;
   var playT = 0, lastScore = 0, lastSecs = 0, sent = false, sleepT = 0, dieT = 0, dieWhy = "", curStage = STAGES[0], best = 0, lastKmText = "", twoStreak = 0;
   try { best = parseInt(localStorage.getItem("mm_spiel_best"), 10) || 0; } catch (e) {}
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function reset() {
     time = 0; playT = 0; dist = 0; km = 0; v = 26; lane = 0; riderX = 0; energy = 100; awake = 100; inv = 0; shake = 0; flash = 0;
-    ents = []; decos = []; pops = []; parts = []; nextRow = 70; nextDeco = 0; rowId = 0; lastFree = 1; sinceTent = 0; signIdx = 1; finishPlaced = false; globePlaced = false; twoStreak = 0; sinceShop = 0; gravelEnd = -999; gravelLanes = []; windT = 6; gust = null; gustFx = 0; pumps = 0; onGravel = false;
+    ents = []; decos = []; pops = []; parts = []; nextRow = 70; nextDeco = 0; rowId = 0; lastFree = 1; sinceTent = 0; signIdx = 1; finishPlaced = false; globePlaced = false; twoStreak = 0; sinceShop = 0; hurt = 0; crashT = 0; chaseT = 14; gravelEnd = -999; gravelLanes = []; windT = 6; gust = null; gustFx = 0; pumps = 0; onGravel = false;
     curStage = STAGES[0]; for (var z = 8; z < ZS; z += 6) addDeco(z);
   }
   function addDeco(z) {
@@ -662,7 +663,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     rowId++;
     var rkm = (dist + z) * KMU, h = HZ[stageAt(rkm).i];
     var d = clamp(km / 13000, 0, 1), late = clamp((km - 13000) / 20000, 0, 1), early = dist < 420, lanes = [-1, 0, 1], blocked = [], r = Math.random();
-    var wantTent = !early && ((awake < 40 && sinceTent > 12) || sinceTent > 55);
+    var wantTent = !early && ((awake < 40 && sinceTent > 12) || (hurt && sinceTent > 30) || sinceTent > 55);
     var wantShop = !early && !wantTent && ((energy < 38 && sinceShop > 25) || sinceShop > 85);
     if (wantShop) wantTent = true; // gleiche Platzierung wie beim Zelt: höchstens ein Hindernis in der Reihe
     var inGravel = dist + z < gravelEnd + 8, car = carAlive(), carNew = false;
@@ -706,7 +707,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   }
   function advance(dx, rows) {
     dist += dx; var i;
-    for (i = ents.length - 1; i >= 0; i--) { ents[i].z -= dx; if (ents[i].z + (ents[i].len || 0) < zMin - 3) ents.splice(i, 1); }
+    for (i = ents.length - 1; i >= 0; i--) { ents[i].z -= dx; if (ents[i].type !== "chaser" && ents[i].z + (ents[i].len || 0) < zMin - 3) ents.splice(i, 1); }
     for (i = decos.length - 1; i >= 0; i--) { decos[i].z -= dx; if (decos[i].z < zMin - 3) decos.splice(i, 1); }
     while (dist + ZS >= nextDeco) { addDeco(nextDeco - dist); nextDeco += 4.5 + hash(nextDeco) * 3; }
     if (signIdx < STAGES.length && dist + ZS >= STAGES[signIdx].km / KMU) { var sz = STAGES[signIdx].km / KMU - dist; decos.push({ z: sz, wx: 2.9, type: "sign", side: 1, v: 0, label: STAGES[signIdx].name.toUpperCase() }); signIdx++; }
@@ -728,6 +729,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (state === "menu") { v = 20; advance(v * dt, false); km = dist * KMU % 1700; return; }
     if (state === "sleep") { sleepT -= dt; if (sleepT <= 0) { state = "play"; inv = 1.2; } return; }
     if (state === "dying") { dieT -= dt; v *= Math.pow(.04, dt); advance(v * dt, false); riderX += (lane - riderX) * Math.min(1, dt * 16); if (dieT <= 0) endGame(false); return; }
+    if (state === "crash") {
+      crashT -= dt; playT += dt; v *= Math.pow(.02, dt); advance(v * dt, false); riderX += (lane - riderX) * Math.min(1, dt * 16);
+      for (var ci = ents.length - 1; ci >= 0; ci--) if (ents[ci].type === "chaser") { ents[ci].z += v * dt + 24 * dt; if (ents[ci].z > ZS) ents.splice(ci, 1); }
+      if (crashT <= 0) { state = "play"; inv = 1.6; v = 9; }
+      return;
+    }
     if (state === "flat") {
       v *= Math.pow(.01, dt); advance(v * dt, false); riderX += (lane - riderX) * Math.min(1, dt * 16); playT += dt;
       energy -= 4 * dt; awake -= 2.5 * dt;
@@ -748,12 +755,21 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (st !== curStage) { curStage = st; toast("<small>" + T.stage + " " + (st.i + 1) + "</small>" + st.name); snd("stage"); musicStage(st.i); gust = null; windT = 4; }
     // Seitenwind: erst Warnung, dann eine Spur zur Seite, aber nur wenn dort frei ist
     gustFx = Math.max(0, gustFx - dt);
+    // Auto von hinten, das auf deine Spur zielt: erst Warnung, dann rauscht es durch
+    if (hz.car && km > 9000 && !onGravel) {
+      chaseT -= dt;
+      if (chaseT <= 0) {
+        var busy = ents.some(function (c) { return c.type === "chaser"; }), esc = [lane - 1, lane + 1].filter(function (l) { return l >= -1 && l <= 1 && !ents.some(function (o) { return !o.done && isSolid(o) && Math.abs((o.lane != null ? o.lane : o.wx) - l) < .5 && o.z > -1 && o.z < 16; }); });
+        if (busy || !esc.length) chaseT = 1;
+        else { ents.push({ type: "chaser", wx: lane, z: -36, v: Math.random(), row: -9, warn: 1 }); chaseT = 9 + Math.random() * 9; snd("honk"); hint("chase", T.hChase); }
+      }
+    }
     if (hz.wind) {
       if (gust) {
         gust.t -= dt;
         if (gust.t <= 0) {
           var tl = lane + gust.dir, ok = tl >= -1 && tl <= 1;
-          if (ok) for (i = 0; i < ents.length; i++) { e = ents[i]; if (e.done || e.type === "gravel" || e.type === "finish" || e.type === "bear" || e.type === "bottle" || e.type === "can" || e.type === "tent" || e.type === "shop") continue; if (Math.abs((e.lane != null ? e.lane : e.wx) - tl) < .6 && e.z > -1.5 && e.z < v * .95) { ok = false; break; } }
+          if (ok) for (i = 0; i < ents.length; i++) { e = ents[i]; if (e.done || e.type === "gravel" || e.type === "finish" || e.type === "bear" || e.type === "bottle" || e.type === "can" || e.type === "tent" || e.type === "shop") continue; if (Math.abs((e.lane != null ? e.lane : e.wx) - tl) < .6 && e.z > -1.5 && e.z < v * 1.7) { ok = false; break; } }
           if (ok) { lane = tl; pop(T.wind, "#cfe8ff", lane); }
           gustFx = .6; gust = null; windT = 6 + Math.random() * 6;
         }
@@ -774,12 +790,20 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
       }
       if (e.type === "animal" && e.skin !== "deer") { var f = clamp((120 - e.z) / 48, 0, 1); f = f * f * (3 - 2 * f); e.wx = lerp(e.wx0, e.lane, f); e.moving = f < 1; if (!e.cue && e.z < 110) { e.cue = 1; if (e.skin === "dog") { snd("bark"); hint("dog", T.hDog); } else { snd("roar"); hint("bear", T.hBear); } } }
       if (!e.cue && e.z < 100) { if (e.type === "glass") { e.cue = 1; hint("glass", T.hGlass); } else if (e.type === "animal" && e.skin === "deer") { e.cue = 1; hint("deer", T.hDeer); } else if (e.type === "pot" && e.skin === "puddle") { e.cue = 1; hint("puddle", T.hPuddle); } else if (e.type === "pot" && e.skin === "ice") { e.cue = 1; hint("ice", T.hIce); } }
+      if (e.type === "chaser") {
+        e.z += step + 24 * dt;
+        if (e.warn && e.z > -18) { e.warn = 0; snd("honk"); }
+        if (e.z > ZS) { ents.splice(i, 1); continue; }
+        if (!e.done && inv <= 0 && Math.abs(e.wx - riderX) < .6 && e.z > -.9 && e.z < .9) { e.done = true; crash(); return; }
+        continue;
+      }
       if (e.done) continue;
       var dx = Math.abs(e.wx - riderX);
       if (e.type === "glass") {
         if (inv <= 0 && dx < .5 && e.z < .8 && e.z > -.7) { ents.splice(i, 1); state = "flat"; pumps = 0; shake = .25; pop(T.flat, "#ff5a5a", riderX); snd("hiss"); try { navigator.vibrate && navigator.vibrate(80); } catch (er) {} return; }
       } else if (e.type === "pot" || e.type === "barrier" || e.type === "truck" || e.type === "car" || e.type === "animal") {
         if (inv <= 0 && dx < (e.type === "car" ? .6 : .55) && e.z < .9 && e.z > -.7) {
+          if (e.type === "barrier" || e.type === "truck" || e.type === "car" || (e.type === "animal" && e.skin !== "dog")) { e.done = true; crash(); return; }
           e.done = true; var soft = e.type === "pot" && e.skin !== "pot", dog = e.type === "animal" && e.skin === "dog";
           var dmg = e.type === "pot" ? (e.skin === "puddle" ? 11 : e.skin === "ice" ? 15 : 17) : e.type === "barrier" ? 24 : e.type === "truck" ? 34 : e.type === "car" ? 25 : e.skin === "dog" ? 13 : e.skin === "deer" ? 22 : 28;
           energy -= dmg * (1 + .2 * d + .25 * late); inv = 1.15; shake = soft || dog ? .18 : .35; flash = soft || dog ? .5 : 1; v *= e.skin === "puddle" ? .45 : .55;
@@ -790,11 +814,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
         }
       } else if (dx < .62 && e.z < 1.2 && e.z > -.9) {
         ents.splice(i, 1);
-        if (e.type === "bear") { energy = Math.min(100, energy + 14); burst(BEARS[Math.floor(e.v * 4) % 4], riderX, 9); snd("eat"); }
-        else if (e.type === "bottle") { energy = Math.min(100, energy + 10); burst("#a35bff", riderX, 9); snd("drink"); pop(T.keego, "#c9a6ff", riderX); }
+        if (e.type === "bear") { energy = Math.min(cap(), energy + 14); burst(BEARS[Math.floor(e.v * 4) % 4], riderX, 9); snd("eat"); }
+        else if (e.type === "bottle") { energy = Math.min(cap(), energy + 10); burst("#a35bff", riderX, 9); snd("drink"); pop(T.keego, "#c9a6ff", riderX); }
         else if (e.type === "can") { awake = Math.min(100, awake + 24); burst("#ffd23f", riderX, 12); snd("can"); pop(T.kong, "#ffd23f", riderX); }
-        else if (e.type === "shop") { energy = 100; burst("#ffd23f", riderX, 16); snd("shop"); pop(T.shop, "#ffd23f", riderX); }
-        else if (e.type === "tent") { awake = 100; energy = Math.min(100, energy + 15); state = "sleep"; sleepT = reduce ? .6 : 1.2; snd("tent"); }
+        else if (e.type === "shop") { energy = Math.max(energy, cap()); burst("#ffd23f", riderX, 16); snd("shop"); pop(T.shop, "#ffd23f", riderX); }
+        else if (e.type === "tent") { if (hurt) { hurt = 0; pop(T.healed, "#7dffb0", riderX); } awake = 100; energy = Math.min(100, energy + 15); state = "sleep"; sleepT = reduce ? .6 : 1.2; snd("tent"); }
       }
     }
     if (onGravel) { shake = Math.max(shake, .05); crunchT -= dt; if (crunchT <= 0) { crunchT = .16; snd("gravel"); } }
@@ -802,13 +826,21 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (energy <= 0) { energy = 0; die("energy"); } else if (awake <= 0) { awake = 0; die("awake"); }
   }
   function pump() { if (state !== "flat") return; pumps++; snd("pump"); if (pumps >= 6) { state = "play"; inv = 1.6; pop(T.go, "#7dffb0", riderX); } }
+  function cap() { return hurt >= 2 ? 40 : hurt === 1 ? 70 : 100; }
+  function crash() {
+    hurt++; energy -= 14; v *= .25; shake = .5; flash = 1; snd("crash"); burst("#c9ccd6", riderX, 12); pop(T.crash, "#ff5a5a", riderX);
+    try { navigator.vibrate && navigator.vibrate([90, 60, 120]); } catch (er) {}
+    if (hurt >= 3) { die("crash"); return; }
+    energy = Math.min(energy, cap()); if (energy <= 0) { energy = 0; die("energy"); return; }
+    state = "crash"; crashT = reduce ? .6 : 1.1; hint("crash", T.hCrash);
+  }
   function die(why) { state = "dying"; dieWhy = why; dieT = 1; musicStop(); snd("over"); }
   function endGame(won) {
     state = won ? "win" : "over"; musicStop();
     var score = Math.round(km), isBest = score > best; lastScore = score; lastSecs = playT; sent = false;
     if (isBest) { best = score; try { localStorage.setItem("mm_spiel_best", String(best)); } catch (e) {} }
-    $("oLabel").textContent = won ? T.winSub : dieWhy === "energy" ? T.bonkSub : T.sleepSub;
-    $("oTitle").innerHTML = won ? T.win : dieWhy === "energy" ? T.bonk : T.sleep;
+    $("oLabel").textContent = won ? T.winSub : dieWhy === "energy" ? T.bonkSub : dieWhy === "crash" ? T.crashSub : T.sleepSub;
+    $("oTitle").innerHTML = won ? T.win : dieWhy === "energy" ? T.bonk : dieWhy === "crash" ? T.crashT : T.sleep;
     $("oKm").textContent = fmt(score);
     $("oBest").textContent = isBest && score > 0 ? T.newBest : T.best.replace("{km}", fmt(best));
     $("oText").innerHTML = won ? T.winText : T.overText.replace("{stage}", curStage.name);
@@ -817,7 +849,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (won) { snd("win"); for (var i = 0; i < 60; i++) parts.push({ x: Math.random() * W, y: -10, vx: (Math.random() - .5) * 120, vy: Math.random() * 200, t: -Math.random() * 1.5, col: ["#a35bff", "#ffd23f", "#6fd3ff", "#fff"][i % 4], r: 4 + Math.random() * 4 }); }
   }
   function start() { ensureAudio(); reset(); musicStart(0); state = "play"; $("board").hidden = true; $("menu").hidden = true; $("over").hidden = true; $("pause").hidden = true; $("hud").hidden = false; $("stageName").textContent = curStage.name; toast("<small>" + T.stage + " 1</small>" + curStage.name); }
-  function pause() { if (state !== "play" && state !== "sleep" && state !== "flat") return; pausedFrom = state; state = "pause"; $("pause").hidden = false; $("btnResume").focus(); if (ac) ac.suspend(); }
+  function pause() { if (state !== "play" && state !== "sleep" && state !== "flat" && state !== "crash") return; pausedFrom = state; state = "pause"; $("pause").hidden = false; $("btnResume").focus(); if (ac) ac.suspend(); }
   function resume() { if (state !== "pause") return; state = pausedFrom; $("pause").hidden = true; last = 0; if (ac) ac.resume(); }
   var pausedFrom = "play";
   function toast(html) { var t = $("toast"); t.innerHTML = html; t.classList.remove("show"); void t.offsetWidth; t.classList.add("show"); }
@@ -844,7 +876,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
       if (DECO[o.type]) { if (x < -s * 3 || x > W + s * 3) continue; DECO[o.type](x, y, s, o, time, night); continue; }
       if (o.type === "pot") { if (o.skin === "puddle") drawPuddle(x, y, s, time + o.v * 3); else if (o.skin === "ice") drawIce(x, y, s); else drawPot(x, y, s); }
       else if (o.type === "glass") drawGlass(x, y, s, time + o.v * 3);
-      else if (o.type === "car") drawCar(x, y, s, o, time);
+      else if (o.type === "car" || o.type === "chaser") drawCar(x, y, s, o, time);
       else if (o.type === "animal") { if (o.skin === "deer") drawDeer(x, y, s, o.dir); else if (o.skin === "dog") drawDog(x, y, s * 1.25, o.dir, o.moving ? time : 0); else drawBigBear(x, y, s, o.dir, o.moving ? time : 0); }
       else if (o.type === "barrier") drawBarrier(x, y, s, time + o.v * 3);
       else if (o.type === "truck") drawTruck(x, y, s, time + o.v * 3);
@@ -858,6 +890,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     ctx.globalAlpha = 1;
     var lean = clamp((lane - riderX) * .32, -.3, .3), slump = state === "dying" ? 1 - dieT : 0;
     if (state === "dying" && dieWhy === "energy") lean += slump * .5;
+    if (state === "crash") { var cp = crashT > .55 ? (1.1 - crashT) / .55 : crashT / .55; lean += 1.35 * clamp(cp * 1.6, 0, 1); }
+    if (state === "dying" && dieWhy === "crash") lean += 1.35 * clamp((1 - dieT) * 3, 0, 1);
     var blink = inv > 0 && state === "play" && Math.floor(time * 14) % 2 ? .35 : 1;
     drawRider(X(riderX, 1), base, U, state === "pause" ? 0 : time * clamp(v / 30, .3, 1.6), lean, blink, slump);
     var k;
@@ -866,6 +900,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     for (k = 0; k < pops.length; k++) { var po = pops[k]; ctx.globalAlpha = clamp(1 - po.t / .9, 0, 1); ctx.font = "800 " + Math.round(Math.min(U * .3, W * .075)) + "px " + FONT; var ptw = ctx.measureText(po.text).width / 2 + 10, ppx = clamp(po.x, ptw, W - ptw); ctx.lineWidth = 4; ctx.strokeStyle = "rgba(18,16,25,.7)"; ctx.strokeText(po.text, ppx, po.y); ctx.fillStyle = po.col; ctx.fillText(po.text, ppx, po.y); }
     ctx.globalAlpha = 1;
     ctx.restore();
+    // Warnung: Auto kommt von hinten
+    for (var wc = 0; wc < ents.length; wc++) {
+      var ch = ents[wc]; if (ch.type !== "chaser" || ch.z > zMin + .5 || ch.done) continue;
+      var near2 = clamp((ch.z + 36) / 34, 0, 1), blinkOn = Math.sin(time * 18) > -.2, lx2 = X(ch.wx, 1);
+      glow(lx2 - U * .35, H + 10, U * (.6 + near2 * 1.1), "rgba(255,245,200,.95)", .35 + .55 * near2); glow(lx2 + U * .35, H + 10, U * (.6 + near2 * 1.1), "rgba(255,245,200,.95)", .35 + .55 * near2);
+      if (blinkOn) { ctx.fillStyle = "#ffb02e"; ctx.beginPath(); var ty2 = H - 70 - near2 * 30, ts2 = 26; ctx.moveTo(lx2, ty2 - ts2); ctx.lineTo(lx2 + ts2, ty2 + ts2 * .8); ctx.lineTo(lx2 - ts2, ty2 + ts2 * .8); ctx.closePath(); ctx.fill(); ctx.fillStyle = "#17131f"; ctx.font = "800 30px " + FONT; ctx.textAlign = "center"; ctx.fillText("!", lx2, ty2 + ts2 * .62); }
+      ctx.fillStyle = "#fff"; ctx.font = "800 " + Math.round(Math.min(W * .065, 28)) + "px " + FONT; ctx.textAlign = "center"; ctx.lineWidth = 4; ctx.strokeStyle = "rgba(18,16,25,.7)"; var hx2 = clamp(lx2, 60, W - 60); ctx.strokeText(T.honk, hx2, H - 128 - near2 * 30); ctx.fillText(T.honk, hx2, H - 128 - near2 * 30);
+    }
     // Wetter
     var wi, wx1, wy1;
     if (state !== "menu" && wRain > .02) {
@@ -907,7 +949,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     // dunkler Verlauf oben, damit die Anzeige immer lesbar bleibt
     if (state !== "menu") { var tg = ctx.createLinearGradient(0, 0, 0, Math.min(190, H * .26)); tg.addColorStop(0, "rgba(18,16,25,.55)"); tg.addColorStop(1, "rgba(18,16,25,0)"); ctx.fillStyle = tg; ctx.fillRect(0, 0, W, Math.min(190, H * .26)); }
     // HUD
-    if (state === "play" || state === "sleep" || state === "dying" || state === "pause" || state === "flat") {
+    if (state === "play" || state === "sleep" || state === "dying" || state === "pause" || state === "flat" || state === "crash") {
+      $("capE").style.width = (100 - cap()) + "%"; var le = T.energy + (hurt ? " · " + T.hurtLbl : ""); if ($("lblE").textContent !== le) $("lblE").textContent = le;
       var kt = fmt(Math.floor(km)); if (kt !== lastKmText) { $("km").textContent = kt; lastKmText = kt; }
       $("fillE").style.transform = "scaleX(" + clamp(energy / 100, 0, 1).toFixed(3) + ")"; $("fillA").style.transform = "scaleX(" + clamp(awake / 100, 0, 1).toFixed(3) + ")";
       $("barE").classList.toggle("low", energy < 25); $("barA").classList.toggle("low", awake < 25);
@@ -1046,6 +1089,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     else if (k === "can") { noise(0, .5, .16, "bandpass", 450, 2800, 7); tone(240, 760, .45, "sine", .05); noise(.58, .3, .07, "bandpass", 1300, 700, 1.2); }
     else if (k === "tent") { noise(0, .5, .2, "bandpass", 170, 330, 4); tone(72, 96, .5, "sawtooth", .08); tone(940, 600, .45, "sine", .05, .58); noise(.58, .45, .06, "bandpass", 1600, 900, 2); }
     else if (k === "shop") { tone(1320, 1320, .08, "square", .06); tone(1760, 1760, .25, "triangle", .1, .09); noise(0, .06, .08, "highpass", 6000); }
+    else if (k === "honk") { tone(392, 392, .32, "square", .07); tone(494, 494, .32, "square", .06); noise(0, .7, .06, "lowpass", 300, 900); }
+    else if (k === "crash") { noise(0, .45, .25, "lowpass", 1800, 300); tone(140, 50, .4, "square", .12); tone(900, 500, .12, "triangle", .06, .05); }
     else if (k === "hiss") noise(0, .8, .18, "highpass", 4500, 2200);
     else if (k === "pump") { noise(0, .13, .16, "bandpass", 600, 1700, 2); tone(180, 260, .1, "triangle", .06); }
     else if (k === "splash") noise(0, .3, .2, "lowpass", 2800, 450);
@@ -1140,7 +1185,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
             ents.forEach(function (e) { if (!e.done && near !== null && e.type !== "gravel" && Math.abs(e.z - near) < 2.5) row.push(e); });
             var bad = {}, soft = {}, good = null;
             row.forEach(function (e) { var l = e.lane != null ? e.lane : Math.round(e.wx); if (e.type === "pot" || e.type === "glass" || e.type === "barrier" || e.type === "truck" || e.type === "animal" || e.type === "car") { bad[l] = 1; if (e.type === "car" && e.tgt !== null) bad[e.tgt] = 1; } else good = l; });
-            ents.forEach(function (e) { if (e.type === "gravel" && e.z < 14 && e.z + e.len > 0) soft[e.wx] = 1; });
+            ents.forEach(function (e) { if (e.type === "gravel" && e.z < 14 && e.z + e.len > 0) soft[e.wx] = 1; if (e.type === "chaser" && e.z < 1) bad[e.wx] = 1; });
             var target = lane;
             if (good !== null && !bad[good] && Math.random() < skill) target = good;
             else if (bad[lane] && Math.random() < skill) target = [lane - 1, lane + 1, lane - 2, lane + 2].filter(function (l) { return l >= -1 && l <= 1 && !bad[l]; })[0];
