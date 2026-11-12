@@ -651,7 +651,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     if (!pool.length) pool = freeL;
     var pick = pool[Math.floor(Math.random() * pool.length)];
     if (wantTent) { ents.push({ z: z, wx: pick, type: "tent", row: rowId, v: 0 }); sinceTent = 0; return; }
-    var q2 = Math.random(), pf = early ? .5 : (.31 - .08 * d - .03 * late) * (h.easy ? 1.3 : 1), pc = early ? 0 : .04;
+    var q2 = Math.random(), pf = early ? .5 : (.31 - .03 * d) * (h.easy ? 1.25 : 1), pc = early ? 0 : .04;
+    if (energy < 30) pf = Math.max(pf, .4); // Notration: wer fast leer ist, bekommt sicher etwas zu essen
     if (q2 < pc) ents.push({ z: z, wx: pick, type: "can", row: rowId, v: 0 });
     else if (q2 < pc + pf) ents.push({ z: z, wx: pick, type: Math.random() < .62 ? "bear" : "bottle", row: rowId, v: Math.random() });
   }
@@ -693,7 +694,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     var step = v * dt;
     advance(step, true);
     km = Math.min(TOTAL, dist * KMU);
-    energy -= (4.3 + 2 * d + .9 * late) * (hz.cold ? 1.1 : 1) * dt; awake -= (2.4 + 1 * d + .5 * late) * (onGravel ? 2.2 : 1) * dt; sinceTent += dt; inv = Math.max(0, inv - dt);
+    energy -= (4.3 + 1.6 * d + .6 * late) * (hz.cold ? 1.1 : 1) * dt; awake -= (2.4 + 1 * d + .5 * late) * (onGravel ? 2.2 : 1) * dt; sinceTent += dt; inv = Math.max(0, inv - dt);
     riderX += (lane - riderX) * Math.min(1, dt * 16);
     var st = stageAt(km);
     if (st !== curStage) { curStage = st; toast("<small>" + T.stage + " " + (st.i + 1) + "</small>" + st.name); snd("stage"); musicStage(st.i); gust = null; windT = 4; }
@@ -733,7 +734,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
         if (inv <= 0 && dx < (e.type === "car" ? .6 : .55) && e.z < .9 && e.z > -.7) {
           e.done = true; var soft = e.type === "pot" && e.skin !== "pot", dog = e.type === "animal" && e.skin === "dog";
           var dmg = e.type === "pot" ? (e.skin === "puddle" ? 11 : e.skin === "ice" ? 15 : 17) : e.type === "barrier" ? 24 : e.type === "truck" ? 34 : e.type === "car" ? 25 : e.skin === "dog" ? 13 : e.skin === "deer" ? 22 : 28;
-          energy -= dmg; inv = 1.15; shake = soft || dog ? .18 : .35; flash = soft || dog ? .5 : 1; v *= e.skin === "puddle" ? .45 : .55;
+          energy -= dmg * (1 + .2 * d + .25 * late); inv = 1.15; shake = soft || dog ? .18 : .35; flash = soft || dog ? .5 : 1; v *= e.skin === "puddle" ? .45 : .55;
           pop(e.skin === "puddle" ? T.splash : e.skin === "ice" ? T.slip : dog ? T.scared : T.ouch, e.skin === "puddle" ? "#9fd0ff" : "#ff5a5a", riderX);
           burst(e.skin === "puddle" ? "#9fd0ff" : e.skin === "ice" ? "#e6f4ff" : "#c9ccd6", riderX, e.skin === "puddle" ? 14 : 8);
           snd(e.skin === "puddle" ? "splash" : dog ? "bark" : "hit"); try { navigator.vibrate && navigator.vibrate(60); } catch (er) {}
