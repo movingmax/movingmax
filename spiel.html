@@ -74,6 +74,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
 .btn { display: block; width: 100%; padding: 15px 18px; border-radius: 6px; border: 1px solid var(--accent-strong); background: var(--accent-strong); color: #fff; font-weight: 600; font-size: 1.05rem; cursor: pointer; text-decoration: none; text-align: center; }
 .btn.ghost { background: transparent; border-color: var(--line); color: var(--text); }
 .btn[disabled] { opacity: .55; cursor: default; }
+.btn.small { display: inline-block; width: auto; padding: 9px 12px; font-size: .92rem; }
+.promo { position: relative; display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: center; text-align: left; border: 1px solid var(--accent); border-radius: 8px; padding: 16px 12px 12px; background: rgba(163,91,255,.1); }
+.promo canvas { width: 48px; height: 72px; }
+.promo .ad { position: absolute; top: -9px; left: 10px; background: var(--surface); color: var(--muted); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; padding: 0 6px; }
+.promo-text { display: grid; gap: 4px; font-size: .92rem; line-height: 1.35; color: var(--muted); }
+.promo-text strong { color: var(--text); font-family: var(--font-display); font-size: 1.2rem; letter-spacing: .02em; text-transform: uppercase; line-height: 1.05; }
+.promo-text b { color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.promo-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .btn:hover { filter: brightness(1.1); }
 .btns { display: grid; gap: 10px; }
 .score { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 17vw, 4.6rem); line-height: .9; font-variant-numeric: tabular-nums; }
@@ -145,6 +153,20 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     <p id="oText"></p>
     <div class="btns">
       <button class="btn" id="btnAgain" type="button"></button>
+    </div>
+    <aside class="promo" aria-labelledby="kTitle">
+      <span class="ad" id="kAd"></span>
+      <canvas id="kIcon" width="96" height="144" aria-hidden="true"></canvas>
+      <div class="promo-text">
+        <strong id="kTitle"></strong>
+        <span id="kText"></span>
+        <div class="promo-btns">
+          <button class="btn small" id="kCopy" type="button"></button>
+          <a class="btn small ghost" id="kShop" href="https://keego.at" target="_blank" rel="noopener sponsored"></a>
+        </div>
+      </div>
+    </aside>
+    <div class="btns">
       <button class="btn ghost" id="btnBoard2" type="button"></button>
       <button class="btn ghost" id="btnShare" type="button"></button>
       <a class="btn ghost" id="btnHome2" href="./"></a>
@@ -198,6 +220,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     best: "Your record: {km} km", newBest: "New record!",
     again: "Ride again", share: "Share result", copied: "Copied!", shareText: "I made it {km} km in “Once around Europe”. Can you beat that?",
     paused: "Paused", resume: "Keep riding", rested: "Well rested!", ouch: "Ouch!", locale: "en-US",
+    kAd: "Ad", kTitle: "The bottle from the game is real", kText: "Use my code <b>{code}</b> for <b>15% off</b> the Keego titanium bottle.", kCopy: "Copy code", kShop: "Go to Keego",
     kong: "Kong Strong downed!", keego: "Keego downed!", shop: "Stocked up at Lidl!", splash: "Splash!", slip: "Slippery!", scared: "Startled!", flat: "Flat tyre!", pump: "Tap fast to pump", go: "Off you go!", wind: "Crosswind!",
     hGlass: "Broken glass means a flat tyre", hPuddle: "Puddles slow you down", hWind: "Watch out, crosswind!", hDeer: "Reindeer on the road!", hBear: "A bear!", hGravel: "Gravel makes you slow and tired", hCar: "Cars change lanes. Watch the indicator", hDog: "Street dogs!", hIce: "Black ice!", board: "Leaderboard", boardSub: "Top 20", yourName: "Your name", enter: "Add my {km} km", entered: "You are in!", rank: "Your rank: {r} of {n}", noBoard: "The leaderboard is not reachable right now.", empty: "Nobody here yet. Be the first!", close: "Close", badName: "Please pick a name with 2 to 16 characters.", nameNote: "Your name and kilometres are shown publicly."
   } : {
@@ -212,6 +235,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     best: "Dein Rekord: {km} km", newBest: "Neuer Rekord!",
     again: "Nochmal fahren", share: "Ergebnis teilen", copied: "Kopiert!", shareText: "Ich bin bei „Einmal um Europa“ {km} km weit gekommen. Schaffst du mehr?",
     paused: "Pause", resume: "Weiterfahren", rested: "Ausgeschlafen!", ouch: "Autsch!", locale: "de-DE",
+    kAd: "Anzeige", kTitle: "Die Flasche aus dem Spiel gibt es wirklich", kText: "Mit meinem Code <b>{code}</b> bekommst du <b>15 % Rabatt</b> auf die Keego-Titanflasche.", kCopy: "Code kopieren", kShop: "Zu Keego",
     kong: "Kong Strong getrunken!", keego: "Keego getrunken!", shop: "Bei Lidl eingekauft!", splash: "Platsch!", slip: "Rutschig!", scared: "Erschrocken!", flat: "Platten!", pump: "Tipp schnell zum Pumpen", go: "Weiter geht’s!", wind: "Seitenwind!",
     hGlass: "Scherben geben einen Platten", hPuddle: "Pfützen bremsen dich", hWind: "Achtung, Seitenwind!", hDeer: "Rentiere auf der Straße!", hBear: "Ein Bär!", hGravel: "Schotter macht langsam und müde", hCar: "Autos wechseln die Spur. Achte auf den Blinker", hDog: "Straßenhunde!", hIce: "Glatteis!", board: "Rangliste", boardSub: "Top 20", yourName: "Dein Name", enter: "Mit {km} km eintragen", entered: "Du bist drin!", rank: "Dein Platz: {r} von {n}", noBoard: "Die Rangliste ist gerade nicht erreichbar.", empty: "Noch niemand da. Sei der Erste!", close: "Schließen", badName: "Bitte einen Namen mit 2 bis 16 Zeichen wählen.", nameNote: "Dein Name und deine Kilometer sind öffentlich sichtbar."
   };
@@ -1028,6 +1052,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   function soundIcon() { $("wave").setAttribute("d", muted ? "M17 9l5 6M22 9l-5 6" : "M17 9a4 4 0 0 1 0 6"); }
   $("btnSound").addEventListener("click", function () { muted = !muted; try { localStorage.setItem("mm_spiel_mute", muted ? "1" : "0"); } catch (e) {} if (!muted) { ensureAudio(); if (state === "play" || state === "sleep") musicStart(curStage.i); } else musicStop(); soundIcon(); });
   soundIcon();
+
+  // ---------- Keego-Hinweis nach jeder Runde ----------
+  var KEEGO_CODE = "MOVINGMAX15";
+  $("kAd").textContent = T.kAd; $("kTitle").textContent = T.kTitle; $("kText").innerHTML = T.kText.replace("{code}", KEEGO_CODE); $("kCopy").textContent = T.kCopy; $("kShop").textContent = T.kShop + " →";
+  (function () { var main = ctx; ctx = $("kIcon").getContext("2d"); drawBottle(48, 138, 270); ctx = main; })();
+  $("kCopy").addEventListener("click", function () {
+    var b = $("kCopy"), done = function () { b.textContent = T.copied; setTimeout(function () { b.textContent = T.kCopy; }, 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(KEEGO_CODE).then(done, function () {});
+  });
 
   // ---------- Rangliste ----------
   var API = "/api/spiel-rangliste", myId = "", myName = "";
