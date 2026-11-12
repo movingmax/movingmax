@@ -75,8 +75,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
 .btn.ghost { background: transparent; border-color: var(--line); color: var(--text); }
 .btn[disabled] { opacity: .55; cursor: default; }
 .btn.small { display: inline-block; width: auto; padding: 9px 12px; font-size: .92rem; }
-.promo { position: relative; display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: center; text-align: left; border: 1px solid var(--accent); border-radius: 8px; padding: 16px 12px 12px; background: rgba(163,91,255,.1); }
-.promo canvas { width: 48px; height: 72px; }
+.promo { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; text-align: left; border: 1px solid var(--accent); border-radius: 8px; padding: 16px 12px 12px; background: rgba(163,91,255,.1); }
+.promo img { width: 64px; height: auto; border-radius: 6px; display: block; }
 .promo .ad { position: absolute; top: -9px; left: 10px; background: var(--surface); color: var(--muted); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; padding: 0 6px; }
 .promo-text { display: grid; gap: 4px; font-size: .92rem; line-height: 1.35; color: var(--muted); }
 .promo-text strong { color: var(--text); font-family: var(--font-display); font-size: 1.2rem; letter-spacing: .02em; text-transform: uppercase; line-height: 1.05; }
@@ -156,7 +156,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     </div>
     <aside class="promo" aria-labelledby="kTitle">
       <span class="ad" id="kAd"></span>
-      <canvas id="kIcon" width="96" height="144" aria-hidden="true"></canvas>
+      <img id="kIcon" src="img/keego-flasche.jpg" width="64" height="161" alt="Keego" loading="lazy">
       <div class="promo-text">
         <strong id="kTitle"></strong>
         <span id="kText"></span>
@@ -1056,7 +1056,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   // ---------- Keego-Hinweis nach jeder Runde ----------
   var KEEGO_CODE = "MOVINGMAX15";
   $("kAd").textContent = T.kAd; $("kTitle").textContent = T.kTitle; $("kText").innerHTML = T.kText.replace("{code}", KEEGO_CODE); $("kCopy").textContent = T.kCopy; $("kShop").textContent = T.kShop + " →";
-  (function () { var main = ctx; ctx = $("kIcon").getContext("2d"); drawBottle(48, 138, 270); ctx = main; })();
   $("kCopy").addEventListener("click", function () {
     var b = $("kCopy"), done = function () { b.textContent = T.copied; setTimeout(function () { b.textContent = T.kCopy; }, 1800); };
     if (navigator.clipboard) navigator.clipboard.writeText(KEEGO_CODE).then(done, function () {});
