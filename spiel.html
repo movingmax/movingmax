@@ -190,7 +190,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     <h1 id="bTitle"></h1>
     <form id="bForm" hidden novalidate>
       <label class="sr" for="bName" id="bNameLbl"></label>
-      <input id="bName" name="name" type="text" maxlength="16" autocomplete="nickname" enterkeyhint="done">
+      <input id="bName" name="name" type="text" maxlength="31" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done">
       <button class="btn" id="bSubmit" type="submit"></button>
       <p class="tiny" id="bNote"></p>
     </form>
@@ -231,8 +231,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     again: "Ride again", share: "Share result", copied: "Copied!", shareText: "I made it {km} km in “Once around Europe”. Can you beat that?",
     paused: "Paused", resume: "Keep riding", rested: "Well rested!", ouch: "Ouch!", locale: "en-US",
     kAd: "Ad", kTitle: "The bottle from the game is real", kText: "Use my code <b>{code}</b> for <b>15% off</b> the Keego titanium bottle.", kCopy: "Copy code", kShop: "Go to Keego",
-    kong: "Kong Strong downed!", keego: "Keego downed!", shop: "Stocked up at Lidl!", splash: "Splash!", slip: "Slippery!", scared: "Startled!", flat: "Flat tyre!", pump: "Tap fast to pump", go: "Off you go!", wind: "Crosswind!",
-    hGlass: "Broken glass means a flat tyre", hPuddle: "Puddles slow you down", hWind: "Watch out, crosswind!", hDeer: "Reindeer on the road!", hBear: "A bear!", hGravel: "Gravel makes you slow and tired", hCar: "Cars change lanes. Watch the indicator", hDog: "Street dogs!", hIce: "Black ice!", board: "Leaderboard", boardSub: "Top 20", yourName: "Your name", enter: "Add my {km} km", entered: "You are in!", rank: "Your rank: {r} of {n}", noBoard: "The leaderboard is not reachable right now.", empty: "Nobody here yet. Be the first!", close: "Close", badName: "Please pick a name with 2 to 16 characters.", nameNote: "Your name and kilometres are shown publicly."
+    kong: "Kong Strong downed!", keego: "Keego downed!", yourTime: "Your time: <strong>{t}</strong>.", shop: "Stocked up at Lidl!", splash: "Splash!", slip: "Slippery!", scared: "Startled!", flat: "Flat tyre!", pump: "Tap fast to pump", go: "Off you go!", wind: "Crosswind!",
+    hGlass: "Broken glass means a flat tyre", hPuddle: "Puddles slow you down", hWind: "Watch out, crosswind!", hDeer: "Reindeer on the road!", hBear: "A bear!", hGravel: "Gravel makes you slow and tired", hCar: "Cars change lanes. Watch the indicator", hDog: "Street dogs!", hIce: "Black ice!", board: "Leaderboard", boardSub: "Top 20", yourName: "Your Instagram name", enter: "Add my {km} km", entered: "You are in!", rank: "Your rank: {r} of {n}", noBoard: "The leaderboard is not reachable right now.", empty: "Nobody here yet. Be the first!", close: "Close", badName: "Please enter a valid Instagram name, e.g. @movingmaxx.", nameNote: "Your Instagram name, kilometres and, if you finish, your time are shown publicly. If you win, I will contact you there."
   } : {
     label: "Verstecktes Spiel", title: "Einmal um <em>Europa</em>", sub: "33.000 km. Wie weit kommst du?",
     r1: "Wisch oder tipp links und rechts, um die Spur zu wechseln.", r2: "Weich Schlaglöchern, Autos und LKWs aus. Stürze machen dich angeschlagen, im Zelt heilst du.",
@@ -246,8 +246,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     again: "Nochmal fahren", share: "Ergebnis teilen", copied: "Kopiert!", shareText: "Ich bin bei „Einmal um Europa“ {km} km weit gekommen. Schaffst du mehr?",
     paused: "Pause", resume: "Weiterfahren", rested: "Ausgeschlafen!", ouch: "Autsch!", locale: "de-DE",
     kAd: "Anzeige", kTitle: "Die Flasche aus dem Spiel gibt es wirklich", kText: "Mit meinem Code <b>{code}</b> bekommst du <b>15 % Rabatt</b> auf die Keego-Titanflasche.", kCopy: "Code kopieren", kShop: "Zu Keego",
-    kong: "Kong Strong getrunken!", keego: "Keego getrunken!", shop: "Bei Lidl eingekauft!", splash: "Platsch!", slip: "Rutschig!", scared: "Erschrocken!", flat: "Platten!", pump: "Tipp schnell zum Pumpen", go: "Weiter geht’s!", wind: "Seitenwind!",
-    hGlass: "Scherben geben einen Platten", hPuddle: "Pfützen bremsen dich", hWind: "Achtung, Seitenwind!", hDeer: "Rentiere auf der Straße!", hBear: "Ein Bär!", hGravel: "Schotter macht langsam und müde", hCar: "Autos wechseln die Spur. Achte auf den Blinker", hDog: "Straßenhunde!", hIce: "Glatteis!", board: "Rangliste", boardSub: "Top 20", yourName: "Dein Name", enter: "Mit {km} km eintragen", entered: "Du bist drin!", rank: "Dein Platz: {r} von {n}", noBoard: "Die Rangliste ist gerade nicht erreichbar.", empty: "Noch niemand da. Sei der Erste!", close: "Schließen", badName: "Bitte einen Namen mit 2 bis 16 Zeichen wählen.", nameNote: "Dein Name und deine Kilometer sind öffentlich sichtbar."
+    kong: "Kong Strong getrunken!", keego: "Keego getrunken!", yourTime: "Deine Zeit: <strong>{t}</strong>.", shop: "Bei Lidl eingekauft!", splash: "Platsch!", slip: "Rutschig!", scared: "Erschrocken!", flat: "Platten!", pump: "Tipp schnell zum Pumpen", go: "Weiter geht’s!", wind: "Seitenwind!",
+    hGlass: "Scherben geben einen Platten", hPuddle: "Pfützen bremsen dich", hWind: "Achtung, Seitenwind!", hDeer: "Rentiere auf der Straße!", hBear: "Ein Bär!", hGravel: "Schotter macht langsam und müde", hCar: "Autos wechseln die Spur. Achte auf den Blinker", hDog: "Straßenhunde!", hIce: "Glatteis!", board: "Rangliste", boardSub: "Top 20", yourName: "Dein Instagram-Name", enter: "Mit {km} km eintragen", entered: "Du bist drin!", rank: "Dein Platz: {r} von {n}", noBoard: "Die Rangliste ist gerade nicht erreichbar.", empty: "Noch niemand da. Sei der Erste!", close: "Schließen", badName: "Bitte gib einen gültigen Instagram-Namen ein, z. B. @movingmaxx.", nameNote: "Dein Instagram-Name, deine Kilometer und, wenn du ins Ziel kommst, deine Zeit sind öffentlich sichtbar. Wenn du gewinnst, melde ich mich dort."
   };
   var $ = function (id) { return document.getElementById(id); };
   function fmt(n) { return Math.round(n).toLocaleString(T.locale); }
@@ -843,7 +843,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
     $("oTitle").innerHTML = won ? T.win : dieWhy === "energy" ? T.bonk : dieWhy === "crash" ? T.crashT : T.sleep;
     $("oKm").textContent = fmt(score);
     $("oBest").textContent = isBest && score > 0 ? T.newBest : T.best.replace("{km}", fmt(best));
-    $("oText").innerHTML = won ? T.winText : T.overText.replace("{stage}", curStage.name);
+    $("oText").innerHTML = won ? T.winText + " " + T.yourTime.replace("{t}", Math.floor(playT / 60) + ":" + ("0" + Math.round(playT % 60)).slice(-2)) : T.overText.replace("{stage}", curStage.name);
     $("btnShare").textContent = T.share;
     $("hud").hidden = true; $("over").hidden = false; $("btnAgain").focus();
     if (won) { snd("win"); for (var i = 0; i < 60; i++) parts.push({ x: Math.random() * W, y: -10, vx: (Math.random() - .5) * 120, vy: Math.random() * 200, t: -Math.random() * 1.5, col: ["#a35bff", "#ffd23f", "#6fd3ff", "#fff"][i % 4], r: 4 + Math.random() * 4 }); }
@@ -1120,14 +1120,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   try { myId = localStorage.getItem("mm_spiel_id") || ""; myName = localStorage.getItem("mm_spiel_name") || ""; } catch (e) {}
   function uuid() { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); return "xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx".replace(/x/g, function () { return Math.floor(Math.random() * 16).toString(16); }); }
   $("btnBoard1").textContent = T.board; $("btnBoard2").textContent = T.board; $("bLabel").textContent = T.boardSub; $("bTitle").textContent = T.board;
-  $("bClose").textContent = T.close; $("bNameLbl").textContent = T.yourName; $("bName").placeholder = T.yourName; $("bNote").textContent = T.nameNote;
+  $("bClose").textContent = T.close; $("bNameLbl").textContent = T.yourName; $("bName").placeholder = "@" + (EN ? "yourname" : "deinname"); $("bNote").textContent = T.nameNote;
+  function clock(t) { t = Math.round(t); var m = Math.floor(t / 60), sec = t % 60; return m + ":" + (sec < 10 ? "0" : "") + sec; }
   function showBoard(data) {
     var ol = $("bList"); ol.textContent = ""; $("bMsg").hidden = true;
     if (!data) { $("bMsg").textContent = T.noBoard; $("bMsg").hidden = false; $("bRank").textContent = ""; return; }
     if (!data.top.length) { $("bMsg").textContent = T.empty; $("bMsg").hidden = false; }
     data.top.forEach(function (e, i) {
       var li = document.createElement("li"), b = document.createElement("b"), n = document.createElement("span"), k = document.createElement("i");
-      b.textContent = (i + 1) + "."; n.textContent = e.name; k.textContent = fmt(e.km) + " km"; if (e.me) li.className = "me";
+      b.textContent = (i + 1) + "."; n.textContent = e.name; k.textContent = fmt(e.km) + " km" + (e.secs ? " · " + clock(e.secs) : ""); if (e.me) li.className = "me";
       li.appendChild(b); li.appendChild(n); li.appendChild(k); ol.appendChild(li);
     });
     $("bRank").textContent = data.rank ? T.rank.replace("{r}", data.rank).replace("{n}", data.total) : "";
@@ -1149,9 +1150,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   $("bClose").addEventListener("click", function () { $("board").hidden = true; $(boardFrom || "menu").hidden = false; });
   $("bForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    var name = $("bName").value.replace(/\s+/g, " ").trim();
-    if (name.length < 2) { $("bMsg").textContent = T.badName; $("bMsg").hidden = false; $("bName").focus(); return; }
-    if (!myId) myId = uuid(); myName = name;
+    var name = $("bName").value.trim().replace(/^@+/, "").toLowerCase();
+    if (!/^[a-z0-9._]{1,30}$/.test(name) || /^\.|\.$|\.\./.test(name)) { $("bMsg").textContent = T.badName; $("bMsg").hidden = false; $("bName").focus(); return; }
+    name = "@" + name; if (!myId) myId = uuid(); myName = name;
     try { localStorage.setItem("mm_spiel_id", myId); localStorage.setItem("mm_spiel_name", myName); } catch (er) {}
     $("bSubmit").disabled = true;
     api("POST", { id: myId, name: name, km: lastScore, secs: Math.round(lastSecs) }).then(function (data) { sent = true; $("bForm").hidden = true; showBoard(data); $("bMsg").textContent = T.entered; $("bMsg").hidden = false; }, function (err) { $("bSubmit").disabled = false; $("bMsg").textContent = err.message === "name" ? T.badName : T.noBoard; $("bMsg").hidden = false; });
