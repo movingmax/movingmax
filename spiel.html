@@ -262,7 +262,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
   document.title = (EN ? "Once around Europe" : "Einmal um Europa") + " – Moving Max";
 
   // ---------- Etappen ----------
-  var TOTAL = 33000, KMU = 1.8, D = 7, ZS = 130;
+  var TOTAL = 33000, KMU = .9, D = 7, ZS = 130;
   var STAGES = [
     { km: 0,     de: "Nordsee",              en: "North Sea",           sky: ["#4c9fe0", "#cfe8f7"], ground: "#6fae5c", sil: "flat",   silc: "#4f8f58", sa: .02,  deco: ["tree", "windmill", "tree", "house", "tree", "hay"], cl: .9, sun: [.78, .32, .05, "#fff6c9"] },
     { km: 1800,  de: "Skandinavien",         en: "Scandinavia",         sky: ["#4d6078", "#a9b7c4"], ground: "#4a8a5a", sil: "fjord",  silc: "#3a5268", sa: .17,  deco: ["pine", "pine", "rock", "redhouse"], sea: "#34607f", cl: 1, sun: [.2, .3, .045, "#fff6c9"] },
@@ -802,7 +802,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
       if (e.type === "glass") {
         if (inv <= 0 && dx < .5 && e.z < .8 && e.z > -.7) { ents.splice(i, 1); state = "flat"; pumps = 0; shake = .25; pop(T.flat, "#ff5a5a", riderX); snd("hiss"); try { navigator.vibrate && navigator.vibrate(80); } catch (er) {} return; }
       } else if (e.type === "pot" || e.type === "barrier" || e.type === "truck" || e.type === "car" || e.type === "animal") {
-        if (inv <= 0 && dx < (e.type === "car" ? .6 : .55) && e.z < .9 && e.z > -.7) {
+        if (inv <= 0 && dx < (e.type === "car" ? .6 : .55) && e.z < .9 && e.z > -.3) {
           if (e.type === "barrier" || e.type === "truck" || e.type === "car" || (e.type === "animal" && e.skin !== "dog")) { e.done = true; crash(); return; }
           e.done = true; var soft = e.type === "pot" && e.skin !== "pot", dog = e.type === "animal" && e.skin === "dog";
           var dmg = e.type === "pot" ? (e.skin === "puddle" ? 11 : e.skin === "ice" ? 15 : 17) : e.type === "barrier" ? 24 : e.type === "truck" ? 34 : e.type === "car" ? 25 : e.skin === "dog" ? 13 : e.skin === "deer" ? 22 : 28;
@@ -1186,7 +1186,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset:
             ents.forEach(function (e) { if (!e.done && near !== null && e.type !== "gravel" && Math.abs(e.z - near) < 2.5) row.push(e); });
             var bad = {}, soft = {}, good = null;
             row.forEach(function (e) { var l = e.lane != null ? e.lane : Math.round(e.wx); if (e.type === "pot" || e.type === "glass" || e.type === "barrier" || e.type === "truck" || e.type === "animal" || e.type === "car") { bad[l] = 1; if (e.type === "car" && e.tgt !== null) bad[e.tgt] = 1; } else good = l; });
-            ents.forEach(function (e) { if (e.type === "gravel" && e.z < 14 && e.z + e.len > 0) soft[e.wx] = 1; if (e.type === "chaser" && e.z < 1) bad[e.wx] = 1; });
+            ents.forEach(function (e) { if (e.type === "gravel" && e.z < 14 && e.z + e.len > 0) soft[e.wx] = 1; if (e.type === "chaser" && e.z < 1) bad[e.wx] = 1; if (!e.done && e.z > -.5 && e.z <= 1.2 && (e.type === "pot" || e.type === "glass" || e.type === "barrier" || e.type === "truck" || e.type === "animal" || e.type === "car")) bad[e.lane != null ? e.lane : Math.round(e.wx)] = 1; });
             var target = lane;
             if (good !== null && !bad[good] && Math.random() < skill) target = good;
             else if (bad[lane] && Math.random() < skill) target = [lane - 1, lane + 1, lane - 2, lane + 2].filter(function (l) { return l >= -1 && l <= 1 && !bad[l]; })[0];

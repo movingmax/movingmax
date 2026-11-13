@@ -1,9 +1,9 @@
-// Rangliste für das Spiel „Einmal um Europa“.
+// Rangliste für das Spiel „Einmal um Europa“. Seit der Umstellung auf die längere Spieldauer unter dem Schlüssel "top-v2" (alte Liste bleibt unter "top" liegen).
 // Gespeichert werden je Eintrag: frei gewählter Name, Kilometer, Datum und eine zufällige Kennung aus dem Browser.
 import { getStore } from "@netlify/blobs";
 
 const ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-const TOTAL = 33000, MAX_KM_PER_SEC = 150, KEEP = 200, SHOW = 20;
+const TOTAL = 33000, MAX_KM_PER_SEC = 75, KEEP = 200, SHOW = 20;
 const BLOCK = /hitler|nazi|fick|fotze|hure|nigg|wichs|arschl|fuck|bitch|cunt/i;
 
 // Instagram-Name: Buchstaben, Ziffern, Punkt, Unterstrich, höchstens 30 Zeichen. Gespeichert mit @ davor.
@@ -29,7 +29,7 @@ export function view(list, id) {
 
 export async function handle(req, store) {
   const url = new URL(req.url);
-  let list = (await store.get("top", { type: "json" })) || [];
+  let list = (await store.get("top-v2", { type: "json" })) || [];
   let id = (url.searchParams.get("id") || "").toLowerCase();
   if (!ID.test(id)) id = "";
   if (req.method === "POST") {
@@ -54,7 +54,7 @@ export async function handle(req, store) {
     }
     list.sort(order);
     list = list.slice(0, KEEP);
-    await store.setJSON("top", list);
+    await store.setJSON("top-v2", list);
   }
   return Response.json(view(list, id), { headers: { "Cache-Control": "no-store" } });
 }
