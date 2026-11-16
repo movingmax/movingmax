@@ -30,6 +30,21 @@ export function view(list, id) {
 export async function handle(req, store) {
   const url = new URL(req.url);
   let list = (await store.get("top-v2", { type: "json" })) || [];
+  // Einmalig: Einträge aus der alten Liste (kurze Spieldauer) übernehmen. Kilometer bleiben, Zeiten werden verdoppelt.
+  if (!(await store.get("alt-uebernommen"))) {
+    const alt = (await store.get("top", { type: "json" })) || [];
+    for (const a of alt) {
+      if (!a || !ID.test(a.id) || typeof a.name !== "string" || !(a.km >= 1 && a.km <= TOTAL)) continue;
+      const e = { id: a.id, name: a.name, km: Math.floor(a.km), secs: a.secs ? Math.round(a.secs * 2) : 0, at: a.at || 0 };
+      const rival = list.find((x) => x.id === e.id || x.name === e.name);
+      if (!rival) list.push(e);
+      else if (order(e, rival) < 0) { rival.km = e.km; rival.secs = e.secs; rival.at = e.at; }
+    }
+    list.sort(order);
+    list = list.slice(0, KEEP);
+    await store.setJSON("top-v2", list);
+    await store.set("alt-uebernommen", "1");
+  }
   let id = (url.searchParams.get("id") || "").toLowerCase();
   if (!ID.test(id)) id = "";
   if (req.method === "POST") {
