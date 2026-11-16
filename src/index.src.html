@@ -273,6 +273,16 @@ section { padding: 84px 0; }
 footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 0.9rem; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 footer a { color: var(--muted); }
+.gamepop { position: fixed; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 40; max-width: 400px; margin-left: auto; display: flex; gap: 14px; align-items: center; padding: 12px 40px 12px 12px; background: var(--surface); border: 1px solid var(--accent-strong); border-radius: 8px; box-shadow: 0 14px 40px rgba(0, 0, 0, .55); transform: translateY(140%); opacity: 0; transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .3s; }
+.gamepop.on { transform: none; opacity: 1; }
+.gamepop[hidden] { display: none; }
+.gamepop img { width: 84px; height: 84px; object-fit: cover; border-radius: 6px; flex: none; }
+.gamepop b { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 1.35rem; line-height: 1; }
+.gamepop span { display: block; font-size: .88rem; line-height: 1.35; color: var(--muted); margin: 5px 0 9px; }
+.gamepop .btn { padding: 8px 14px; font-size: .9rem; }
+.gamepop-x { position: absolute; top: 2px; right: 2px; width: 40px; height: 40px; background: none; border: 0; color: var(--muted); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.gamepop-x:hover { color: var(--text); }
+@media (prefers-reduced-motion: reduce) { .gamepop { transition: none; } }
 </style>
 </head>
 <body>
@@ -878,6 +888,32 @@ footer a { color: var(--muted); }
   b.addEventListener('click', function () { set(m.hidden); });
   m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
   set(false);
+})();
+</script>
+<aside class="gamepop" id="gamepop" hidden aria-label="⟦Hinweis aufs Spiel¦Game hint⟧">
+  <img src="{{R}}img/spiel-vorschau.jpg" alt="" width="84" height="84" loading="lazy">
+  <div>
+    <b>⟦Einmal um Europa¦Once around Europe⟧</b>
+    <span>⟦Schaffst du die 33.000 km? Spiel meine Tour als Minispiel.¦Can you make the 33,000 km? Play my tour as a mini game.⟧</span>
+    <a class="btn" id="gamepopGo" href="⟦spiel.html¦../spiel.html?lang=en⟧">⟦Jetzt spielen¦Play now⟧</a>
+  </div>
+  <button class="gamepop-x" id="gamepopX" type="button" aria-label="⟦Schließen¦Close⟧">&times;</button>
+</aside>
+<script>
+// Hinweis aufs Spiel: erscheint kurz nach dem Laden, bleibt nach dem Schließen weg
+(function () {
+  var box = document.getElementById("gamepop"), KEY = "mm_spiel_hinweis";
+  if (!box) return;
+  try { if (localStorage.getItem(KEY)) return; } catch (e) {}
+  function done() { try { localStorage.setItem(KEY, "1"); } catch (e) {} }
+  setTimeout(function () {
+    box.hidden = false;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { box.classList.add("on"); }); });
+  }, 2500);
+  document.getElementById("gamepopX").addEventListener("click", function () {
+    done(); box.classList.remove("on"); setTimeout(function () { box.hidden = true; }, 450);
+  });
+  document.getElementById("gamepopGo").addEventListener("click", done);
 })();
 </script>
 <script>
