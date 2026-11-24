@@ -7,6 +7,8 @@ import { getStore } from "@netlify/blobs";
 const MAX_AGE = 30 * 60 * 1000;
 const RIDES = new Set(["Ride", "GravelRide", "MountainBikeRide", "EBikeRide"]);
 const env = (k, d) => (globalThis.Netlify && Netlify.env.get(k)) || process.env[k] || d;
+// Tag 1 der Europaumrundung (Velsen/Amsterdam, 3. Juni 2026)
+const START = () => env("TOUR_START", "2026-06-03");
 
 export function sumRides(list) {
   let m = 0, hm = 0, n = 0, last = null;
@@ -29,7 +31,7 @@ async function refresh(store) {
   if (!saved) return null;
   const t = await token({ grant_type: "refresh_token", refresh_token: saved.refresh_token });
   if (t.refresh_token !== saved.refresh_token) await store.setJSON("token", { refresh_token: t.refresh_token });
-  const after = Math.floor(Date.parse(env("TOUR_START", "2026-06-21") + "T00:00:00Z") / 1000);
+  const after = Math.floor(Date.parse(START() + "T00:00:00Z") / 1000);
   const all = [];
   for (let page = 1; page <= 10; page++) {
     const r = await fetch(`https://www.strava.com/api/v3/athlete/activities?after=${after}&per_page=200&page=${page}`, { headers: { Authorization: "Bearer " + t.access_token } });
@@ -39,7 +41,7 @@ async function refresh(store) {
   }
   const s = sumRides(all);
   s.km += Number(env("STRAVA_OFFSET_KM", "0")) || 0;
-  const data = { ...s, at: Date.now() };
+  const data = { ...s, from: START(), at: Date.now() };
   await store.setJSON("km", data);
   return data;
 }
@@ -61,7 +63,7 @@ export default async (req) => {
     } catch (e) { return new Response("Verbinden hat nicht geklappt: " + e.message, { status: 502 }); }
   }
   let data = await store.get("km", { type: "json" });
-  if (!data || Date.now() - data.at > MAX_AGE) { try { data = (await refresh(store)) || data; } catch (e) { /* alter Stand bleibt */ } }
+  if (!data || data.from !== START() || Date.now() - data.at > MAX_AGE) { try { data = (await refresh(store)) || data; } catch (e) { /* alter Stand bleibt */ } }
   return out(data);
 };
 
