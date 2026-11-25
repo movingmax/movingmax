@@ -151,6 +151,10 @@ section { padding: 84px 0; }
 /* Route */
 .pic { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; background: var(--surface); }
 .pic.tall { aspect-ratio: 4 / 5; max-height: 62vh; }
+.nowpic { margin: 0; display: grid; gap: 6px; }
+.nowpic[hidden] { display: none; }
+.nowpic figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; font-size: .85rem; color: var(--muted); }
+.nowpic figcaption a { color: #fc5200; font-weight: 600; text-decoration: none; font-size: .78rem; }
 .story { display: grid; grid-template-columns: 1fr 1.15fr; gap: 48px; align-items: start; }
 .map-box { position: sticky; top: 76px; height: calc(100vh - 100px); max-height: 760px; border: 1px solid var(--line); border-radius: 6px; background: #0e0c14; overflow: hidden; order: 2; }
 .map-box svg { width: 100%; height: 100%; display: block; }
@@ -424,6 +428,10 @@ footer a { color: var(--muted); }
           <div class="step" data-wp="Costa Blanca">
             <div class="stage now"><span class="live-dot"></span>⟦Hier bin ich gerade¦Where I am right now⟧</div>
             <h3>⟦Spaniens Mittelmeerküste¦Spain’s Mediterranean coast⟧</h3>
+            <figure class="nowpic" id="nowPic" hidden>
+              <img class="pic" id="nowPicImg" alt="⟦Aktuelles Foto von Max’ letzter Fahrt¦Latest photo from Max’s most recent ride⟧">
+              <figcaption><span id="nowPicCap"></span><a href="https://www.strava.com/athletes/136572386" target="_blank" rel="noopener">Powered by Strava</a></figcaption>
+            </figure>
             <p class="muted">⟦Über 26.000 km sind geschafft, knapp vier Fünftel der Runde. Wo ich genau bin, siehst du im Live-Tracking.¦More than 26,000 km done, almost four fifths of the loop. Check the live tracking to see exactly where I am.⟧</p>
           </div>
           <div class="step" data-wp="Amsterdam2">
@@ -743,8 +751,42 @@ footer a { color: var(--muted); }
   var cumNow = cum[nowIdx], cumEnd = cum[cum.length - 1];
   function kmAt(L) { return L <= cumNow ? NOW_KM * L / cumNow : NOW_KM + (TOTAL_KM - NOW_KM) * (L - cumNow) / (cumEnd - cumNow); }
 
+  // ---------- Standort von Strava: roter Punkt springt zum nächsten Routenpunkt am Ende der letzten Fahrt ----------
+  function moveNow(lat, lon) {
+    var best = -1, bd = Infinity;
+    for (var i = Math.max(1, nowIdx - 6); i < RAW.length - 1; i++) {
+      var dl = RAW[i][1] - lat, dn = (RAW[i][2] - lon) * Math.cos(lat * D), dd = dl * dl + dn * dn;
+      if (dd < bd) { bd = dd; best = i; }
+    }
+    if (best < 0 || best === nowIdx || bd > 9) return;
+    var nowStep = document.querySelector('.step[data-wp="' + NOW + '"]');
+    nowIdx = best; NOW = RAW[best][0] || NOW;
+    rDone.setAttribute("d", pathOf(svgPts.slice(0, nowIdx + 1)));
+    rAhead.setAttribute("d", pathOf(svgPts.slice(nowIdx)));
+    ring.setAttribute("cx", svgPts[nowIdx][0]); ring.setAttribute("cy", svgPts[nowIdx][1]);
+    lenDone = rDone.getTotalLength(); lenAhead = rAhead.getTotalLength();
+    rDone.style.strokeDasharray = lenDone + " " + lenDone;
+    rAhead.style.strokeDasharray = lenAhead + " " + lenAhead;
+    cumNow = cum[nowIdx];
+    steps.forEach(function (st, k) {
+      if (st === nowStep) { stepLen[k] = cumNow; st._pin.setAttribute("cx", svgPts[nowIdx][0]); st._pin.setAttribute("cy", svgPts[nowIdx][1]); }
+      else if (stepLen[k] > cumNow && st.dataset.wp !== "Amsterdam2" && st._pin.parentNode) st._pin.parentNode.removeChild(st._pin);
+    });
+    onScroll();
+  }
+  // ---------- Neuestes Foto von Strava im Abschnitt "Hier bin ich gerade" ----------
+  function showPhoto(p) {
+    var img = $("nowPicImg");
+    img.onload = function () { $("nowPic").hidden = false; };
+    var dt = p.date ? new Date(p.date) : null;
+    $("nowPicCap").textContent = (p.name || "") + (dt && !isNaN(dt) ? " · " + dt.toLocaleDateString(LOCALE, { day: "numeric", month: "long", timeZone: "UTC" }) : "");
+    img.src = "/api/strava-foto?v=" + encodeURIComponent(p.v);
+  }
+
   // ---------- Kilometerstand von Strava: ersetzt den festen Wert, sobald Strava mehr meldet ----------
   if (!/claude|anthropic|localhost|^$/.test(location.hostname) && window.fetch) fetch("/api/strava-km").then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.now) moveNow(d.now.lat, d.now.lon);
+    if (d && d.photo) showPhoto(d.photo);
     if (!d || !(d.km > NOW_KM) || d.km > TOTAL_KM) return;
     NOW_KM = d.km; var share = 100 * NOW_KM / TOTAL_KM, loc = "⟦de-DE¦en-US⟧";
     $("bandKm").textContent = NOW_KM.toLocaleString(loc) + " km";
